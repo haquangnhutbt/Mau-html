@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Biên bản chứng kiến</title>
-<script src="pizzip.min.js"></script>
-<script src="docxtemplater.js"></script>
-<script src="FileSaver.min.js"></script>
+<script src="./pizzip.min.js"></script>
+<script src="./docxtemplater.js"></script>
+<script src="./FileSaver.min.js"></script>
 </head>
 <body>
 <h3>2. Với sự chứng kiến của:</h3>
@@ -179,7 +179,18 @@ document.getElementById("downloadBtn").onclick = async function() {
       type: "blob",
       mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     });
-    saveAs(out, "BienBan.docx");
+    const blob = new Blob([out], { type: 
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
+});
+const url = window.URL.createObjectURL(blob);
+const a = document.createElement("a");
+a.href = url;
+a.download = "BienBan.docx";
+document.body.appendChild(a);
+a.click();
+a.remove();
+window.URL.revokeObjectURL(url);
+
   } catch (e) {
     alert("Lỗi khi tạo Word: " + e.message);
   }
