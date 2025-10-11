@@ -157,7 +157,8 @@ document.getElementById("downloadBtn").onclick = async function () {
   }
 
   try {
-    const response = await fetch("template.docx");
+    const response = await fetch("https://raw.githubusercontent.com/haquangnhutbt/Mau-html/main/template.docx");
+
     const arrayBuffer = await response.arrayBuffer();
     const zip = new PizZip(arrayBuffer);
     const doc = new window.docxtemplater(zip, { paragraphLoop: true, linebreaks: true, delimiters: { start: "<<", end: ">>" } });
