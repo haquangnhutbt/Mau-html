@@ -92,8 +92,7 @@
 
 <!-- Nội dung thật của trang -->
 <div id="mainContent" style="display:none; padding:20px;">
-  <div>
-    <!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
@@ -612,17 +611,17 @@
   
   
   <label>Xã/phường (Viết hoa): Không cần chọn
-    <input type="text" id="1a4" name="1a4" readonly style="width: 40%;height: 40px;" >
+    <input type="text" id="1a4" name="1a4" readonly style="width: 50%;height: 40px;" >
   
   </label>
   
   <h3>Địa danh nơi ra các Quyết định (Không cần chọn)
-    <input type="text" id="1a5" name="1a5" readonly style="width: 40%;height: 40px;" >
+    <input type="text" id="1a5" name="1a5" readonly style="width: 50%;height: 40px;" >
   
   </h3>
   
   <h3>Địa danh nơi ra các Quyết định (Viết hoa): Không cần chọn
-    <input type="text" id="1a5a" name="1a5a"  style="width: 30%;height: 40px;" font-size: 19px; readonly>
+    <input type="text" id="1a5a" name="1a5a"  style="width: 50%;height: 40px;" font-size: 19px; readonly>
   
   </h3>
   
@@ -635,7 +634,7 @@
   
   
     <label for="1a6">Họ và tên cán bộ thụ lý:
-    <input type="text" id="1a6" name="1a6" style="width: 25%;height: 40px;" >
+    <input type="text" id="1a6" name="1a6" style="width: 50%;height: 40px;" >
   </label>
   
     <label for="1a7">Chức vụ (Cán bộ, Công an viên, Cảnh sát khu vực):
@@ -650,7 +649,7 @@
   
   
   <label for="1a8">Họ và tên người ra Quyết định:
-    <input type="text" id="1a8" name="1a8" style="width: 25%;height: 40px;" >
+    <input type="text" id="1a8" name="1a8" style="width: 50%;height: 40px;" >
   </label>
   
     <label for="1a9">Chức vụ (Trưởng Công an xã, Phó trưởng Công an xã):
@@ -674,6 +673,7 @@
   </h3>
   
   <!--code lấy thông tin ô 1a2 1a4 1a5 từ 1a1 va 1a3-->
+ 
   <script>
     function bindSelectToInput(selectName, inputName, transformFn) {
       const selectEl = document.getElementsByName(selectName)[0];
@@ -728,6 +728,8 @@
       bindSelectToInput("1a9", "1a9a", (text) => {
         return text.replace().toUpperCase();
       });
+
+     
   
       //liên kết 1 chiều từ 1a9 sáng 1a9b
       bindSelectToInput("1a9", "1a9b", (text) => {
@@ -757,17 +759,22 @@
   
   <div id="page2" class="page">
   
-  <h2 style="color:red;">PHẦN 2. THÔNG TIN NGƯỜI VI PHẠM HOẶC NGƯỜI BỊ TẠM GIỮ TANG VẬT, PHƯƠNG TIỆN HOẶC GIẤY PHÉP, CHỨNG CHỈ HẢNH NGHỀ</h2>
-  
+  <h2 style="color:red;">PHẦN 2. THÔNG TIN NGƯỜI VI PHẠM HOẶC NGƯỜI BỊ TẠM GIỮ TANG VẬT, PHƯƠNG TIỆN HOẶC GIẤY PHÉP, CHỨNG CHỈ HẢNH NGHỀ
+  </h2>
   
   <label for="2a1">Họ và tên người vi phạm:
   <input type="text" id="2a1" name="2a1" style="width: 40%;height: 40px;" >
     
   
-  
-    <button type="button"  onclick="searchData()">🔍 Tìm kiếm</button>
+
+
+    <button type="button"  onclick="searchData()">🔍 Tìm kiếm</button><br>
+   
+
+  </label>
     
-    </label>
+    
+   
   
   
       
@@ -914,10 +921,11 @@
         
       <label for="2a10a">Nhập địa chỉ chi tiết:
       <input type="text" id="2a10a" name="2a10a" 
-      style="width: 50%;height: 40px;" > </label>
+      style="width: 70%;height: 40px;" > </label>
   
-      <h3>Nơi ở hiện tại</h3>
-  
+      <h3>Nơi ở hiện tại
+      <button type ="button" onclick="copyNoiThuongTru ()">Nơi ở hiện tại là nơi thường trú</button>
+  </h3>
      <!--Chọn nơi ở hiện tại-->
      <label for="2a8" >Chọn tỉnh/thành phố:
      <select id="2a8" name="2a8"style="width: 50%;height: 40px;" onchange="loadXa2()">
@@ -987,7 +995,32 @@
         
       <label for="2a10">Nhập địa chỉ chi tiết:
       <input type="text" id="2a10" name="2a10" 
-      style="width: 50%;height: 40px;" > </label>
+      style="width: 70%;height: 40px;" > </label>
+
+      <!--hàm chuyển dữ liệu từ nơi thường trú xuống nơi ở hiện tại-->
+      <script>
+function copyNoiThuongTru() {
+    // Lấy dữ liệu nơi thường trú
+    const tinh = document.getElementById("2a8a").value;
+    const xa   = document.getElementById("2a9a").value;
+    const dc   = document.getElementById("2a10a").value;
+
+    // Gán cho nơi ở hiện tại
+    document.getElementById("2a8").value = tinh;
+
+    // Load lại danh sách xã/phường tương ứng
+    loadXa2();
+
+    // Chờ danh sách xã/phường load xong rồi gán
+    setTimeout(() => {
+        document.getElementById("2a9").value = xa;
+    }, 100); // 100ms là đủ
+
+    // Gán địa chỉ chi tiết
+    document.getElementById("2a10").value = dc;
+}
+</script>
+ <!--kết thúc hàm chuyển dữ liệu từ nơi thường trú xuống nơi ở hiện tại-->
   
       <label for="2a11">Số định danh cá nhân/Hộ Chiếu:
       <input type="text" id="2a11" name="2a11" style="width: 25%;height: 40px;" >
@@ -1046,13 +1079,15 @@
       <option value="Bộ Công an">Bộ Công an</option>
       <option value="Cục Cảnh sát QLHC về TTXH">Cục Cảnh sát QLHC về TTXH</option>
       </select></label>
+     
       
   </div>
+
   
   <div id="page3" class="page">
     <h2>PHẦN 3. PHẦN THÔNG TIN VỀ TANG VẬT, PHƯƠNG TIỆN VI PHẠM HÀNH CHÍNH VÀ GIẤY PHÉP, CHỨNG CHỈ HÀNH NGHỀ</h2>
   <!-- ===== BẢNG TANG VẬT ===== -->
-  <h3>1. Tang vật, phương tiện vi phạm hành chính, giấy phép, chứng chỉ hành nghề (nhập thông tin vào biên bản vi phạm hành chính - nếu không có thì bỏ qua)</h3>
+  <h3>1. Tang vật, phương tiện vi phạm hành chính, giấy phép, chứng chỉ hành nghề (nhập thông tin vào biên bản vi phạm hành chính - nếu không có thì bỏ qua)
   
   <!-- Danh sách các nhóm -->
   <div id="tvtg">
@@ -1060,7 +1095,7 @@
     <label>STT
       <input class="stt" style="width: 10%;height: 40px;" >
   
-      Tên tang vật
+      Tên tang vật, phương tiện vi phạm hành chính, giấy phép, chứng chỉ hành nghề
       <input class="tenTangVat" style="width: 50%;height: 40px;" >
   
       Đơn vị tính
@@ -1079,8 +1114,11 @@
       <input class="ghiChu" style="width: 50%;height: 40px;" ></label>
   
       <div class="btn">
-        <button class="xoa" style="background-color: red; color: white;">Xóa</button>
+        <button type="button" class="copyTo3" style="background-color: green; color: white;">→ Chuyển dữ liệu xuống phần 2</button>
+        <button type="button" class="copyTo4" style="background-color: blue; color: white;">→ Chuyển dữ liệu xuống phần 3</button>
+        <button type="button" class="xoa" style="background-color: red; color: white;">Xóa</button>
       </div>
+      
 
   </div>
   </div>
@@ -1104,7 +1142,7 @@
       <label>STT
       <input class="stt" style="width: 10%;height: 40px;" >
   
-      Tên tang vật
+      Tên tang vật, phương tiện vi phạm hành chính, giấy phép, chứng chỉ hành nghề
       <input class="tenTangVat" style="width: 50%;height: 40px;" >
   
       Đơn vị tính
@@ -1123,8 +1161,11 @@
       <input class="ghiChu" style="width: 50%;height: 40px;" ></label>
   
       <div class="btn">
-        <button class="xoa" style="background-color: red; color: white;">Xóa</button>
-      </div>
+  <button type="button" class="copyTo3" style="background-color: green; color: white;">→ Chuyển dữ liệu xuống phần 2</button>
+  <button type="button" class="copyTo4" style="background-color: blue; color: white;">→ Chuyển dữ liệu xuống phần 3</button>
+  <button type="button" class="xoa" style="background-color: red; color: white;">Xóa</button>
+</div>
+
     `;
     
     container.appendChild(div);
@@ -1140,17 +1181,278 @@
     }
   });
   </script>
+
+  <!-- truyền dữ liệu xuống mục 2 và mục 3 phần3 -->
+  <script>
+    // =========================
+    // COPY DỮ LIỆU TỪ TVTG → TVTG3
+    // =========================
+    container.addEventListener("click", function(e) {
+    
+      // ======= NÚT COPY SANG TVTG3 =======
+      if (e.target.classList.contains("copyTo3")) {
+    
+        const group = e.target.closest(".tvtg, .nhom");
+        
+        const stt = group.querySelector(".stt").value;
+        const ten = group.querySelector(".tenTangVat").value;
+        const dvt = group.querySelector(".donViTinh").value;
+        const sl  = group.querySelector(".soLuong").value;
+        const cl  = group.querySelector(".chungLoai").value;
+        const tt  = group.querySelector(".tinhTrang").value;
+        const gc  = group.querySelector(".ghiChu").value;
+    
+        // Tạo nhóm mới trong tvtg3
+        const div = document.createElement("div");
+        div.className = "nhom3";
+        div.innerHTML = `
+          <label>STT
+            <input class="stt3" style="width: 10%;height: 40px;" value="${stt}">
+            Tên tang vật
+            <input class="tenTangVat3" style="width: 50%;height: 40px;" value="${ten}">
+            Đơn vị tính
+            <input class="donViTinh3" style="width: 25%;height: 40px;" value="${dvt}">
+            Số lượng
+            <input class="soLuong3" style="width: 10%;height: 40px;" value="${sl}">
+            Chủng loại
+            <input class="chungLoai3" style="width: 25%;height: 40px;" value="${cl}">
+            Tình trạng đặc điểm
+            <input class="tinhTrang3" style="width: 100%;height: 40px;" value="${tt}">
+            Ghi chú
+            <input class="ghiChu3" style="width: 50%;height: 40px;" value="${gc}">
+          </label>
+    
+          <div class="btn">
+            <button class="xoa" style="background-color: red; color: white;">Xóa</button>
+          </div>
+        `;
+    
+        container3.appendChild(div);
+        container3.style.display = "block";
+      }
+    
+      // ======= NÚT COPY SANG TVTG4 =======
+      if (e.target.classList.contains("copyTo4")) {
+    
+        const group = e.target.closest(".tvtg, .nhom");
+        
+        const stt = group.querySelector(".stt").value;
+        const ten = group.querySelector(".tenTangVat").value;
+        const sl  = group.querySelector(".soLuong").value;
+        const tt  = group.querySelector(".tinhTrang").value;
+        const gc  = group.querySelector(".ghiChu").value;
+    
+        const div = document.createElement("div");
+        div.className = "nhom4";
+        div.innerHTML = `
+          <label>STT
+            <input class="stt4" style="width: 10%;height: 40px;" value="${stt}">
+            Tên giấy phép, chứng chỉ
+            <input class="tenTangVat4" style="width: 50%;height: 40px;" value="${ten}">
+            Số lượng
+            <input class="soLuong4" style="width: 10%;height: 40px;" value="${sl}">
+            Tình trạng đặc điểm
+            <input class="tinhTrang4" style="width: 100%;height: 40px;" value="${tt}">
+            Ghi chú
+            <input class="ghiChu4" style="width: 50%;height: 40px;" value="${gc}">
+          </label>
+    
+          <div class="btn">
+            <button class="xoa" style="background-color: red; color: white;">Xóa</button>
+          </div>
+        `;
+    
+        container4.appendChild(div);
+        container4.style.display = "block";
+      }
+    
+    });
+    </script>
+   <!-- kết thúc truyền dữ liệu xuống mục 2 và mục 3 phần3 -->  
+</h3>    
+
+  <!-- ===== 2. Tang vật, phương tiện vi phạm hành chính ===== -->
+  <h3>2. Tang vật, phương tiện vi phạm hành chính (nhập thông tin vào mục 2 của biên bản tạm giữ, biên bản trả - nếu không có thì bỏ qua)
+  <!-- Danh sách các nhóm -->
+  <div id="tvtg3">
+    <div class="tvtg3">
+      <label>STT
+        <input class="stt3" style="width: 10%;height: 40px;" > 
+    
+        Tên tang vật
+        <input class="tenTangVat3" style="width: 50%;height: 40px;" >
+    
+        Đơn vị tính
+        <input class="donViTinh3" style="width: 25%;height: 40px;" >
+    
+        Số lượng
+        <input class="soLuong3" style="width: 10%;height: 40px;" >
+    
+        Chủng loại
+        <input class="chungLoai3" style="width: 25%;height: 40px;" >
+    
+        Tình trạng đặc điểm
+        <input class="tinhTrang3" style="width: 100%;height: 40px;" >
+    
+        Ghi chú
+        <input class="ghiChu3" style="width: 50%;height: 40px;" ></label>
+    
+        <div class="btn">
+          <button type="button" class="xoa" style="background-color: red; color: white;">Xóa</button>
+        </div>
+  
+    </div>
+  
+  </div>
+  
+  <!-- Nút thêm ở dưới -->
+  <button id="btnThemMoi3" type="button">+ Thêm tang vật, phương tiện vi phạm hành chính</button>
+  
+  <script>
+  const container3 = document.getElementById('tvtg3');
+  const btnThemMoi3 = document.getElementById('btnThemMoi3');
+  
+  // 🟢 Khi nhấn "Thêm tang vật"
+  btnThemMoi3.onclick = function () {
+    // Hiện container nếu đang ẩn
+    container3.style.display = 'block';
+  
+    // Tạo nhóm mới
+    const div = document.createElement('div');
+    div.className = 'nhom3';
+    div.innerHTML = `
+      <label>STT
+      <input class="stt3" style="width: 10%;height: 40px;" >
+  
+      Tên tang vật
+      <input class="tenTangVat3" style="width: 50%;height: 40px;" >
+  
+      Đơn vị tính
+      <input class="donViTinh3" style="width: 25%;height: 40px;" >
+  
+      Số lượng
+      <input class="soLuong3" style="width: 10%;height: 40px;" >
+  
+      Chủng loại
+      <input class="chungLoai3" style="width: 25%;height: 40px;" >
+  
+      Tình trạng đặc điểm
+      <input class="tinhTrang3" style="width: 100%;height: 40px;" >
+  
+      Ghi chú
+      <input class="ghiChu3" style="width: 50%;height: 40px;" ></label>
+  
+      <div class="btn">
+        <button type="button" class="xoa" style="background-color: red; color: white;">Xóa</button>
+      </div>
+    `;
+    
+    container3.appendChild(div);
+  };
+  
+  // 🔴 Khi nhấn “Xóa”
+  container3.addEventListener('click', function (e) {
+    if (e.target.classList.contains('xoa')) {
+      e.target.closest('.nhom3').remove();
+      if (container3.children.length === 0) {
+        container3.style.display = 'none';
+      }
+    }
+  });
+  </script>
+  </h3>
+  
+  <!-- ===== 3. Giấy phép, chứng chỉ hành nghề ===== -->
+  <h3>3. Giấy phép, chứng chỉ hành nghề (nhập thông tin vào mục 3 của biên bản tạm giữ, biên bản trả - nếu không có thì bỏ qua)
   
   
-   
+  <!-- Danh sách các nhóm -->
+  <div id="tvtg4">
+    <div class="tvtg4">
+      <label>STT
+        <input class="stt4" style="width: 10%;height: 40px;" > 
+    
+        Tên giấy phép, chứng chỉ
+        <input class="tenTangVat4" style="width: 50%;height: 40px;" >
+    
+      
+    
+        Số lượng
+        <input class="soLuong4" style="width: 10%;height: 40px;" >
+    
+       
+    
+        Tình trạng đặc điểm
+        <input class="tinhTrang4" style="width: 100%;height: 40px;" >
+    
+        Ghi chú
+        <input class="ghiChu4" style="width: 50%;height: 40px;" ></label>
+    
+        <div class="btn">
+          <button type="button" class="xoa" style="background-color: red; color: white;">Xóa</button>
+        </div>
+  
+    </div>
+
+  </div>
+  
+  <!-- Nút thêm ở dưới -->
+  <button id="btnThemMoi4" type="button">+ Thêm giấy phép, chứng chỉ hành nghề</button>
+  
+  <script>
+  const container4 = document.getElementById('tvtg4');
+  const btnThemMoi4 = document.getElementById('btnThemMoi4');
+  
+  // 🟢 Khi nhấn "Thêm tang vật"
+  btnThemMoi4.onclick = function () {
+    // Hiện container nếu đang ẩn
+    container4.style.display = 'block';
+  
+    // Tạo nhóm mới
+    const div = document.createElement('div');
+    div.className = 'nhom4';
+    div.innerHTML = `
+      <label>STT
+      <input class="stt4" style="width: 10%;height: 40px;" >
+  
+      Tên tang vật
+      <input class="tenTangVat4" style="width: 50%;height: 40px;" >
+  
+      
+  
+      Số lượng
+      <input class="soLuong4" style="width: 10%;height: 40px;" >
+  
+    
+  
+      Tình trạng đặc điểm
+      <input class="tinhTrang4" style="width: 10%;height: 40px;" >
+  
+      Ghi chú
+      <input class="ghiChu4" style="width: 50%;height: 40px;" ></label>
+  
+      <div class="btn">
+        <button type="button" class="xoa" style="background-color: red; color: white;">Xóa</button>
+      </div>
+    `;
+    
+    container4.appendChild(div);
+  };
+  
+  // 🔴 Khi nhấn “Xóa”
+  container4.addEventListener('click', function (e) {
+    if (e.target.classList.contains('xoa')) {
+      e.target.closest('.nhom4').remove();
+      if (container4.children.length === 0) {
+        container4.style.display = 'none';
+      }
+    }
+  });
+  </script>
+</h3>  
   
   
-  
-  
-     <script>
-  
-  
-  
+<script>  
   function removeAccents(str){return str.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase()}
   
   
@@ -2158,189 +2460,6 @@ function renderNguoiphiendich(data) {
     </script>
     <!--ket thuc hàm lưu bảng vào localhost-->
   
-  
-  <!-- ===== 2. Tang vật, phương tiện vi phạm hành chính ===== -->
-  <h3>2. Tang vật, phương tiện vi phạm hành chính (nhập thông tin vào mục 2 của biên bản tạm giữ - nếu không có thì bỏ qua)</h3>
-  <!-- Danh sách các nhóm -->
-  <div id="tvtg3">
-    <div class="tvtg3">
-      <label>STT
-        <input class="stt3" style="width: 10%;height: 40px;" > 
-    
-        Tên tang vật
-        <input class="tenTangVat3" style="width: 50%;height: 40px;" >
-    
-        Đơn vị tính
-        <input class="donViTinh3" style="width: 25%;height: 40px;" >
-    
-        Số lượng
-        <input class="soLuong3" style="width: 10%;height: 40px;" >
-    
-        Chủng loại
-        <input class="chungLoai3" style="width: 25%;height: 40px;" >
-    
-        Tình trạng đặc điểm
-        <input class="tinhTrang3" style="width: 100%;height: 40px;" >
-    
-        Ghi chú
-        <input class="ghiChu3" style="width: 50%;height: 40px;" ></label>
-    
-        <div class="btn">
-          <button class="xoa" style="background-color: red; color: white;">Xóa</button>
-        </div>
-  
-    </div>
-  
-  </div>
-  
-  <!-- Nút thêm ở dưới -->
-  <button id="btnThemMoi3" type="button">+ Thêm tang vật, phương tiện vi phạm hành chính</button>
-  
-  <script>
-  const container3 = document.getElementById('tvtg3');
-  const btnThemMoi3 = document.getElementById('btnThemMoi3');
-  
-  // 🟢 Khi nhấn "Thêm tang vật"
-  btnThemMoi3.onclick = function () {
-    // Hiện container nếu đang ẩn
-    container3.style.display = 'block';
-  
-    // Tạo nhóm mới
-    const div = document.createElement('div');
-    div.className = 'nhom3';
-    div.innerHTML = `
-      <label>STT
-      <input class="stt3" style="width: 10%;height: 40px;" >
-  
-      Tên tang vật
-      <input class="tenTangVat3" style="width: 50%;height: 40px;" >
-  
-      Đơn vị tính
-      <input class="donViTinh3" style="width: 25%;height: 40px;" >
-  
-      Số lượng
-      <input class="soLuong3" style="width: 10%;height: 40px;" >
-  
-      Chủng loại
-      <input class="chungLoai3" style="width: 25%;height: 40px;" >
-  
-      Tình trạng đặc điểm
-      <input class="tinhTrang3" style="width: 100%;height: 40px;" >
-  
-      Ghi chú
-      <input class="ghiChu3" style="width: 50%;height: 40px;" ></label>
-  
-      <div class="btn">
-        <button class="xoa" style="background-color: red; color: white;">Xóa</button>
-      </div>
-    `;
-    
-    container3.appendChild(div);
-  };
-  
-  // 🔴 Khi nhấn “Xóa”
-  container3.addEventListener('click', function (e) {
-    if (e.target.classList.contains('xoa')) {
-      e.target.closest('.nhom3').remove();
-      if (container3.children.length === 0) {
-        container3.style.display = 'none';
-      }
-    }
-  });
-  </script>
-  
-  
-  <!-- ===== 3. Giấy phép, chứng chỉ hành nghề ===== -->
-  <h3>3. Giấy phép, chứng chỉ hành nghề (nhập thông tin vào mục 3 của biên bản tạm giữ - nếu không có thì bỏ qua)</h3>
-  
-  
-  <!-- Danh sách các nhóm -->
-  <div id="tvtg4">
-    <div class="tvtg4">
-      <label>STT
-        <input class="stt4" style="width: 10%;height: 40px;" > 
-    
-        Tên giấy phép, chứng chỉ
-        <input class="tenTangVat4" style="width: 50%;height: 40px;" >
-    
-      
-    
-        Số lượng
-        <input class="soLuong4" style="width: 10%;height: 40px;" >
-    
-       
-    
-        Tình trạng đặc điểm
-        <input class="tinhTrang4" style="width: 100%;height: 40px;" >
-    
-        Ghi chú
-        <input class="ghiChu4" style="width: 50%;height: 40px;" ></label>
-    
-        <div class="btn">
-          <button class="xoa" style="background-color: red; color: white;">Xóa</button>
-        </div>
-  
-    </div>
-
-  </div>
-  
-  <!-- Nút thêm ở dưới -->
-  <button id="btnThemMoi4" type="button">+ Thêm giấy phép, chứng chỉ hành nghề</button>
-  
-  <script>
-  const container4 = document.getElementById('tvtg4');
-  const btnThemMoi4 = document.getElementById('btnThemMoi4');
-  
-  // 🟢 Khi nhấn "Thêm tang vật"
-  btnThemMoi4.onclick = function () {
-    // Hiện container nếu đang ẩn
-    container4.style.display = 'block';
-  
-    // Tạo nhóm mới
-    const div = document.createElement('div');
-    div.className = 'nhom4';
-    div.innerHTML = `
-      <label>STT
-      <input class="stt4" style="width: 10%;height: 40px;" >
-  
-      Tên tang vật
-      <input class="tenTangVat4" style="width: 50%;height: 40px;" >
-  
-      
-  
-      Số lượng
-      <input class="soLuong4" style="width: 10%;height: 40px;" >
-  
-    
-  
-      Tình trạng đặc điểm
-      <input class="tinhTrang4" style="width: 10%;height: 40px;" >
-  
-      Ghi chú
-      <input class="ghiChu4" style="width: 50%;height: 40px;" ></label>
-  
-      <div class="btn">
-        <button class="xoa" style="background-color: red; color: white;">Xóa</button>
-      </div>
-    `;
-    
-    container4.appendChild(div);
-  };
-  
-  // 🔴 Khi nhấn “Xóa”
-  container4.addEventListener('click', function (e) {
-    if (e.target.classList.contains('xoa')) {
-      e.target.closest('.nhom4').remove();
-      if (container4.children.length === 0) {
-        container4.style.display = 'none';
-      }
-    }
-  });
-  </script>
-  
-  
-  
-  
    
   </div>
   
@@ -2564,7 +2683,71 @@ function renderNguoiphiendich(data) {
      
     
     <h3 for="4a8">Tại đâu (Nơi xảy ra sự việc hoặc tại Công an xã):
-    <input type="text" id="4a8" name="4a8" value="Công an xã ....." >
+    <input type="text" id="4a8" name="4a8" value="" >
+<!--code hiển thị thông tin thẻ 1a3 và 1a1-->
+    <div>
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    const input1a3 = document.getElementById('1a3');
+    const input1a1 = document.getElementById('1a1');
+    const input4a8 = document.getElementById('4a8');
+    
+    // Biến lưu trữ giá trị mặc định (được tính toán)
+    let defaultValue = '';
+    
+    /**
+     * Hàm tính toán và gán giá trị mặc định mới cho input 4a8
+     */
+    function updateDefaultValue() {
+        // Lấy giá trị hiện tại đã được chọn từ thẻ <select>
+        const value1a3 = input1a3.value;
+        const value1a1 = input1a1.value;
+        
+        // Tính toán lại chuỗi mặc định
+        const newValue = `Công an ${value1a3}, ${value1a1}`;
+        
+        // Nếu input 4a8 đang hiển thị giá trị mặc định cũ, thì cập nhật nó
+        if (input4a8.value === defaultValue) {
+            input4a8.value = newValue;
+        }
+        
+        // Cập nhật giá trị mặc định mới
+        defaultValue = newValue;
+    }
+
+    // --- 1. GÁN GIÁ TRỊ BAN ĐẦU ---
+    updateDefaultValue(); // Gọi lần đầu để thiết lập giá trị khi trang tải
+    
+    // --- 2. THEO DÕI THAY ĐỔI TỪ SELECT ---
+    // Cập nhật giá trị mặc định mỗi khi <select> 1a3 thay đổi
+    input1a3.addEventListener('change', updateDefaultValue);
+    
+    // Cập nhật giá trị mặc định mỗi khi <select> 1a1 thay đổi
+    input1a1.addEventListener('change', updateDefaultValue);
+
+    // --- 3. XỬ LÝ SỰ KIỆN FOCUS/BLUR CHO 4a8 ---
+
+    // Khi nhấp chuột vào (focus)
+    input4a8.addEventListener('focus', function() {
+        // Kiểm tra nếu giá trị hiện tại là giá trị mặc định, thì xóa nó
+        if (this.value === defaultValue) {
+            this.value = '';
+        }
+    });
+
+    // Khi thoát khỏi (blur)
+    input4a8.addEventListener('blur', function() {
+        // Kiểm tra nếu người dùng không nhập gì mới (value rỗng), thì gán lại giá trị mặc định
+        if (this.value === '') {
+            this.value = defaultValue;
+        }
+    });
+
+});
+
+      </script>
+    </div>
+    <!--kết thúc code hiển thị thông tin thẻ 1a3 và 1a1-->
   </h3>
   
     <label for="4a9">Lý do lập biên bản tại trụ sở cơ quan hoặc địa điểm khác 
@@ -3847,7 +4030,7 @@ data.ds4 = readList("ds4"); // DS4
   
        là <select id="ycob3" name="ycob3" style="width: 25%;height: 40px;">
         <option value="">...........</option>
-        <option value="Cá nhân">Cá nhân</option>
+        <option selected value="Cá nhân">Cá nhân</option>
         
       </select>
        vi phạm 01 bản, 
@@ -5049,8 +5232,73 @@ const ds4Data = readList("ds4");
   <h4>3. Gửi cho (23)</h4>
   <h5 style="font-weight:normal ">(23) Ghi họ và tên của cá nhân/tên của tổ chức có trách nhiệm chủ trì tổ chức thi hành Quyết định.</h5>
   <input type="text" id="5a50" name="5a50" value="" style="width: 100%;height: 50px;" min="0" >
+
+    <!--code hiển thị thông tin thẻ 1a3 và 1a1-->
+    <div>
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    const input1a3 = document.getElementById('1a3');
+    const input1a1 = document.getElementById('1a1');
+    const input1a6 = document.getElementById('1a6');
+    const input1a7 = document.getElementById('1a7');
   
+    const input5a50 = document.getElementById('5a50');
+    
+    // Biến lưu trữ giá trị mặc định (được tính toán)
+    let defaultValue = '';
+    
+    /**
+     * Hàm tính toán và gán giá trị mặc định mới cho input 5a50
+     */
+    function updateDefaultValue() {
+        // Lấy giá trị hiện tại đã được chọn từ thẻ <select>
+        const value1a3 = input1a3.value;
+        const value1a1 = input1a1.value;
+        const value1a6 = input1a6.value;
+        const value1a7 = input1a7.value;
+        
+        // Tính toán lại chuỗi mặc định
+        const newValue = `${value1a6} - ${value1a7} Công an ${value1a3}, ${value1a1}`;
+        
+        // Nếu input 5a50 đang hiển thị giá trị mặc định cũ, thì cập nhật nó
+        if (input5a50.value === defaultValue) {
+            input5a50.value = newValue;
+        }
+        
+        // Cập nhật giá trị mặc định mới
+        defaultValue = newValue;
+    }
   
+    // --- 1. GÁN GIÁ TRỊ BAN ĐẦU ---
+    updateDefaultValue(); // Gọi lần đầu để thiết lập giá trị khi trang tải
+    
+    // --- 2. THEO DÕI THAY ĐỔI TỪ SELECT ---
+    // Cập nhật giá trị mặc định mỗi khi <select> 1a3 thay đổi
+    input1a3.addEventListener('change', updateDefaultValue);
+    
+    // Cập nhật giá trị mặc định mỗi khi <select> 1a1 thay đổi
+    input1a1.addEventListener('change', updateDefaultValue);
+    input1a6.addEventListener('change', updateDefaultValue);
+    input1a7.addEventListener('change', updateDefaultValue);
+  
+    // --- 3. XỬ LÝ SỰ KIỆN FOCUS/BLUR CHO 5a50 ---
+  
+    
+  
+    // Khi thoát khỏi (blur)
+    input5a50.addEventListener('blur', function() {
+        // Kiểm tra nếu người dùng không nhập gì mới (value rỗng), thì gán lại giá trị mặc định
+        if (this.value === '') {
+            this.value = defaultValue;
+        }
+    });
+  
+  });
+  
+      </script>
+    </div>
+    <!--kết thúc code hiển thị thông tin thẻ 1a3 và 1a1-->
+    
   <h4>4. Gửi cho (24)</h4>
   <h5 style="font-weight:normal ">(24) Ghi họ và tên của cá nhân/tên của cơ quan, tổ chức có liên quan: Trường hợp xử phạt trục xuất đối với người nước ngoài thì ghi: (i) Bộ Ngoại giao nước Cộng hòa xã hội chủ nghĩa Việt Nam; (ii) Tên của cơ quan lãnh sự, cơ quan đại diện ngoại giao của nước mà người bị trục xuất là công dân hoặc nước mà người đó cư trú cuối cùng trước khi đến Việt Nam; (iii) Tên của cơ quan Công an quản lý người nước ngoài bị trục xuất.</h5>
   <input type="text" id="5a51" name="5a51" value="" style="width: 100%;height: 50px;" min="0" >
@@ -5665,6 +5913,18 @@ const ds1Data = readList("ds1");
         }
     </script> </select>
     có nội dung và giá trị như nhau. Giao cho ông bà <input type="text" id="6a23" name="6a23" value="" style="width: 50%;height: 40px;">
+    <button type="button" onclick="copyValue5()">Lấy thông tin người vi phạm</button>
+    <br>
+    </h4>
+    <script>
+    function copyValue5() {
+      // Lấy giá trị từ ô 2a1
+      const value = document.getElementById("2a1").value;
+    
+      // Gán sang ycob
+      document.getElementById("6a23").value = value;
+    }
+    </script> 
     là 
     <select id="6a24" name="6a24"  style="width: 70%;height: 40px;">
       <option value="cá nhân vi phạm" selected>cá nhân vi phạm</option>
@@ -6238,8 +6498,70 @@ const ds1Data = readList("ds1");
   <h4>5. Địa điểm tạm giữ:<sup>(10)</sup></h4>
   <h5><sup>(10)</sup> Ghi rõ địa chỉ nơi tạm giữ tang vật, phương tiện vi phạm hành chính, giấy phép, chứng chỉ hành nghề.</h5>
   <h5>Ví dụ: Công an xã ...., tỉnh ...; địa chỉ: ấp ...., xã ...., tỉnh ....</h5>
-  <input type="text" id="7a24" name="7a24" value="Công an xã ...., tỉnh ...; địa chỉ: ấp ...., xã ...., tỉnh ...." style="width: 100%;height: 50px;" min="0" >
+  <input type="text" id="7a24" name="7a24" value="" style="width: 100%;height: 50px;" min="0" >
+    <!--code hiển thị thông tin thẻ 1a3 và 1a1-->
+    <div>
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    const input1a3 = document.getElementById('1a3');
+    const input1a1 = document.getElementById('1a1');
+    
   
+    const input7a24 = document.getElementById('7a24');
+    
+    // Biến lưu trữ giá trị mặc định (được tính toán)
+    let defaultValue = '';
+    
+    /**
+     * Hàm tính toán và gán giá trị mặc định mới cho input 7a24
+     */
+    function updateDefaultValue() {
+        // Lấy giá trị hiện tại đã được chọn từ thẻ <select>
+        const value1a3 = input1a3.value;
+        const value1a1 = input1a1.value;
+        
+        
+        // Tính toán lại chuỗi mặc định
+        const newValue = `Công an ${value1a3}, ${value1a1}. Địa chỉ: ....., ${value1a3}, ${value1a1}`;
+        
+        // Nếu input 7a24 đang hiển thị giá trị mặc định cũ, thì cập nhật nó
+        if (input7a24.value === defaultValue) {
+            input7a24.value = newValue;
+        }
+        
+        // Cập nhật giá trị mặc định mới
+        defaultValue = newValue;
+    }
+  
+    // --- 1. GÁN GIÁ TRỊ BAN ĐẦU ---
+    updateDefaultValue(); // Gọi lần đầu để thiết lập giá trị khi trang tải
+    
+    // --- 2. THEO DÕI THAY ĐỔI TỪ SELECT ---
+    // Cập nhật giá trị mặc định mỗi khi <select> 1a3 thay đổi
+    input1a3.addEventListener('change', updateDefaultValue);
+    
+    // Cập nhật giá trị mặc định mỗi khi <select> 1a1 thay đổi
+    input1a1.addEventListener('change', updateDefaultValue);
+    
+  
+    // --- 3. XỬ LÝ SỰ KIỆN FOCUS/BLUR CHO 7a24 ---
+  
+    
+  
+    // Khi thoát khỏi (blur)
+    input7a24.addEventListener('blur', function() {
+        // Kiểm tra nếu người dùng không nhập gì mới (value rỗng), thì gán lại giá trị mặc định
+        if (this.value === '') {
+            this.value = defaultValue;
+        }
+    });
+  
+  });
+  
+      </script>
+    </div>
+    <!--kết thúc code hiển thị thông tin thẻ 1a3 và 1a1-->
+    
   
   <h4>
     6. Việc niêm phong tang vật, phương tiện vi phạm hành chính bị tạm giữ theo thủ tục hành chính được lập thành biên bản kèm theo Quyết định này (nếu có)
@@ -6256,7 +6578,72 @@ const ds1Data = readList("ds1");
   <h4>2. Gửi cho: <sup>(13)</sup></h4>
   <h5><sup>(13)</sup> Ghi họ và tên của cá nhân/tên của tổ chức có trách nhiệm chủ trì tổ chức thi hành quyết định.</h5>
   <input type="text" id="7a25" name="7a25" value="" style="width: 100%;height: 40px;">
+    <!--code hiển thị thông tin thẻ 1a3 và 1a1-->
+    <div>
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    const input1a3 = document.getElementById('1a3');
+    const input1a1 = document.getElementById('1a1');
+    const input1a6 = document.getElementById('1a6');
+    const input1a7 = document.getElementById('1a7');
   
+    const input7a25 = document.getElementById('7a25');
+    
+    // Biến lưu trữ giá trị mặc định (được tính toán)
+    let defaultValue = '';
+    
+    /**
+     * Hàm tính toán và gán giá trị mặc định mới cho input 7a25
+     */
+    function updateDefaultValue() {
+        // Lấy giá trị hiện tại đã được chọn từ thẻ <select>
+        const value1a3 = input1a3.value;
+        const value1a1 = input1a1.value;
+        const value1a6 = input1a6.value;
+        const value1a7 = input1a7.value;
+        
+        // Tính toán lại chuỗi mặc định
+        const newValue = `${value1a6} - ${value1a7} Công an ${value1a3}, ${value1a1}`;
+        
+        // Nếu input 7a25 đang hiển thị giá trị mặc định cũ, thì cập nhật nó
+        if (input7a25.value === defaultValue) {
+            input7a25.value = newValue;
+        }
+        
+        // Cập nhật giá trị mặc định mới
+        defaultValue = newValue;
+    }
+  
+    // --- 1. GÁN GIÁ TRỊ BAN ĐẦU ---
+    updateDefaultValue(); // Gọi lần đầu để thiết lập giá trị khi trang tải
+    
+    // --- 2. THEO DÕI THAY ĐỔI TỪ SELECT ---
+    // Cập nhật giá trị mặc định mỗi khi <select> 1a3 thay đổi
+    input1a3.addEventListener('change', updateDefaultValue);
+    
+    // Cập nhật giá trị mặc định mỗi khi <select> 1a1 thay đổi
+    input1a1.addEventListener('change', updateDefaultValue);
+    input1a6.addEventListener('change', updateDefaultValue);
+    input1a7.addEventListener('change', updateDefaultValue);
+  
+    // --- 3. XỬ LÝ SỰ KIỆN FOCUS/BLUR CHO 7a25 ---
+  
+    
+  
+    // Khi thoát khỏi (blur)
+    input7a25.addEventListener('blur', function() {
+        // Kiểm tra nếu người dùng không nhập gì mới (value rỗng), thì gán lại giá trị mặc định
+        if (this.value === '') {
+            this.value = defaultValue;
+        }
+    });
+  
+  });
+  
+      </script>
+    </div>
+    <!--kết thúc code hiển thị thông tin thẻ 1a3 và 1a1-->
+    
   
   
   
@@ -6748,7 +7135,73 @@ const ds1Data = readList("ds1");
   <h4>2. Gửi cho: <sup>(10)</sup>
   <h5><sup>(10)</sup> Ghi họ và tên của cá nhân/tên của tổ chức có trách nhiệm chủ trì tổ chức thi hành quyết định.</h5>
   <input type="text" id="8a20" name="8a20" value="" style="width: 100%;height: 40px;">
+      <!--code hiển thị thông tin thẻ 1a3 và 1a1-->
+  <div>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+  const input1a3 = document.getElementById('1a3');
+  const input1a1 = document.getElementById('1a1');
+  const input1a6 = document.getElementById('1a6');
+  const input1a7 = document.getElementById('1a7');
+
+  const input8a20 = document.getElementById('8a20');
   
+  // Biến lưu trữ giá trị mặc định (được tính toán)
+  let defaultValue = '';
+  
+  /**
+   * Hàm tính toán và gán giá trị mặc định mới cho input 8a20
+   */
+  function updateDefaultValue() {
+      // Lấy giá trị hiện tại đã được chọn từ thẻ <select>
+      const value1a3 = input1a3.value;
+      const value1a1 = input1a1.value;
+      const value1a6 = input1a6.value;
+      const value1a7 = input1a7.value;
+      
+      // Tính toán lại chuỗi mặc định
+      const newValue = `${value1a6} - ${value1a7} Công an ${value1a3}, ${value1a1}`;
+      
+      // Nếu input 8a20 đang hiển thị giá trị mặc định cũ, thì cập nhật nó
+      if (input8a20.value === defaultValue) {
+          input8a20.value = newValue;
+      }
+      
+      // Cập nhật giá trị mặc định mới
+      defaultValue = newValue;
+  }
+
+  // --- 1. GÁN GIÁ TRỊ BAN ĐẦU ---
+  updateDefaultValue(); // Gọi lần đầu để thiết lập giá trị khi trang tải
+  
+  // --- 2. THEO DÕI THAY ĐỔI TỪ SELECT ---
+  // Cập nhật giá trị mặc định mỗi khi <select> 1a3 thay đổi
+  input1a3.addEventListener('change', updateDefaultValue);
+  
+  // Cập nhật giá trị mặc định mỗi khi <select> 1a1 thay đổi
+  input1a1.addEventListener('change', updateDefaultValue);
+  input1a6.addEventListener('change', updateDefaultValue);
+  input1a7.addEventListener('change', updateDefaultValue);
+
+  // --- 3. XỬ LÝ SỰ KIỆN FOCUS/BLUR CHO 8a20 ---
+
+  
+
+  // Khi thoát khỏi (blur)
+  input8a20.addEventListener('blur', function() {
+      // Kiểm tra nếu người dùng không nhập gì mới (value rỗng), thì gán lại giá trị mặc định
+      if (this.value === '') {
+          this.value = defaultValue;
+      }
+  });
+
+});
+
+    </script>
+  </div>
+  <!--kết thúc code hiển thị thông tin thẻ 1a3 và 1a1-->
+  
+
   để tổ chức thực hiện</h4>
   
   
@@ -7996,7 +8449,7 @@ const ds1Data = readList("ds1");
   
 
   <!-- ===== BẢNG CÁ NHÂN ===== -->
-  <h3>Thêm người làm việc từ thứ 2 trở lên (nếu có):</h3>
+  <h3>Thêm người làm việc từ thứ 2 trở lên (nếu có):
   <div id="dsCaNhan4" class="nhomckcn4" style="display:block;">
   </div>
 
@@ -8158,8 +8611,10 @@ const ds1Data = readList("ds1");
   });
   </script>
       
-
+  </h3>
   
+  
+
   <h4>
   Tiến hành lập biên bản làm việc đối với ông (bà) có liên quan trực tiếp đến vụ việc:</h4>
   <h4>
@@ -8639,7 +9094,7 @@ const ds1Data = readList("ds1");
         [ "8a9" , "7a5"],
   
         //liên kết 2 chiều thông tin người vi phạm và người của biên bản làm việc
-        ["2a1",	"10a10"],
+        ["2a1",	"10a10" , "nvp", "6a23"],
         ["2a2",	"10a11"],
   ["2a3",	"10a12"],
   ["2a4",	"10a13"],
@@ -9422,6 +9877,123 @@ window.dsNguoiPhienDich = dsNguoiPhienDich;
     
     </script>
     
+<!--hàm lấy dữ liệu người vi phạm đưa vào biên bản làm việc-->
+<div>
+  <!-- POPUP TÌM KIẾM -->
+<div id="popupDS4" style="
+display:none;
+position:fixed;
+top:0; left:0; right:0; bottom:0;
+background:rgba(0,0,0,0.5);
+padding-top:50px;
+z-index:9999;">
+
+<div style="background:white; width:90%; margin:auto; padding:20px; border-radius:10px; max-height:80%; overflow:auto;">
+    <h2>Danh sách người đã lưu trong biên bản làm việc</h2>
+
+    <table border="1" width="100%" id="bangDS4" style="border-collapse:collapse; text-align:center;">
+        <thead>
+            <tr>
+                <th>Họ tên</th>
+                <th>Giới tính</th>
+                <th>Ngày sinh</th>
+                <th>Nơi ở hiện tại</th>
+                <th>Chọn</th>
+            </tr>
+        </thead>
+        <tbody id="bodyDS4"></tbody>
+    </table>
+
+    <button type="button" onclick="dongPopup()" style="margin-top:15px; padding:10px;">Đóng</button>
+</div>
+</div>
+
+
+
+<script>
+function searchData2() {
+  
+const popup = document.getElementById("popupDS4");
+popup.style.display = "block";
+
+const body = document.getElementById("bodyDS4");
+body.innerHTML = "";
+
+// Lấy localStorage
+let data = JSON.parse(localStorage.getItem("XPVPHC") || "{}");
+
+// Nếu không có dữ liệu
+if (!Array.isArray(data.dsCaNhan4) || data.dsCaNhan4.length === 0) {
+    body.innerHTML = `<tr><td colspan="5">Không có dữ liệu</td></tr>`;
+    return;
+}
+
+data.dsCaNhan4.forEach((item, index) => {
+  console.log(`bắt đầu xử lý người thứ: ${index}`);
+  console.log(`dữ liệu người này:`, item);
+  body.innerHTML += `
+  <tr>
+        <td>${item.hoTen4 || ""}</td>
+        <td>${item.gioiTinh4 || ""}</td>
+        <td>${item.ngaysinh4}/${item.thangSinh4}/${item.namSinh4}</td>
+        <td>${item.diaChi4}, ${item.xa4}, ${item.tinh4}</td>
+       
+        <td><button type="button" onclick="chonNguoi2(${index})">Chọn</button></td>
+    </tr>
+    `;  
+    body.appendChild(tr); 
+});
+}
+
+console.log(`đã thêm hàng cho người thứ: ${index}`);
+
+function dongPopup() {
+document.getElementById("popupDS4").style.display = "none";
+}
+
+
+
+
+function chonNguoi2(index) {
+const data = JSON.parse(localStorage.getItem("XPVPHC") || "{}");
+const item = data.dsCaNhan4[index];
+
+if (!item) return;
+
+// ★ Gán dữ liệu vào form 2a1 → 2a15
+document.getElementById("2a1").value = item.hoTen4 || "";
+document.getElementById("2a2").value = item.gioiTinh4 || "";
+document.getElementById("2a3").value = item.ngaySinh4 || "";
+document.getElementById("2a4").value = item.thangSinh4 || "";
+document.getElementById("2a5").value = item.namSinh4 || "";
+document.getElementById("2a6").value = item.quocTich4 || "";
+document.getElementById("2a7").value = item.ngheNghiep4 || "";
+
+// Tỉnh nơi hiện tại
+document.getElementById("2a8").value = item.tinh4 || "";
+loadXa2();
+
+// chờ xã load rồi gán
+setTimeout(() => {
+    document.getElementById("2a9").value = item.xa4 || "";
+}, 100);
+
+document.getElementById("2a10").value = item.diaChi4 || "";
+
+// CCCD
+document.getElementById("2a11").value = item.soDinhDanh4 || "";
+document.getElementById("2a12").value = item.ngayCap4 || "";
+document.getElementById("2a13").value = item.thangCap4 || "";
+document.getElementById("2a14").value = item.namCap4 || "";
+document.getElementById("2a15").value = item.noiCap4 || "";
+
+// Đóng popup
+dongPopup();
+}
+</script>
+
+</div>
+<!--kết thúc hàm lấy dữ liệu người vi phạm đưa vào biên bản làm việc-->
 
   
   
@@ -9434,8 +10006,6 @@ window.dsNguoiPhienDich = dsNguoiPhienDich;
 <!-- kết thúc Nội dung thật của trang -->
 
 
-  </div>
-  
 </div>
 <!-- hàm đăng nhập vào trang html phần dưới-->
 <script>
