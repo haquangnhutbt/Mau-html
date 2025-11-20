@@ -337,12 +337,12 @@
     </select>
     </label>
   
-    
+    <div style="display: none;">
   <h3>Tỉnh/thành phố (Viết hoa): Không cần chọn
     <input type="text" id="1a2" name="1a2"  style="width: 40%;height: 40px;" font-size: 19px; readonly>
   
   </h3>
-  
+  </div>
 
 
   
@@ -515,7 +515,7 @@
   } 
  </script> 
   
-  
+  <div style="display: none;">
   <label>Xã/phường (Viết hoa): Không cần chọn
     <input type="text" id="1a4" name="1a4" readonly style="width: 50%;height: 40px;" >
   
@@ -530,7 +530,7 @@
     <input type="text" id="1a5a" name="1a5a"  style="width: 50%;height: 40px;" font-size: 19px; readonly>
   
   </h3>
-  
+  </div>
   
      
        <!--kết thúc chọn xã, tỉnh-->
@@ -567,7 +567,7 @@
     </select>
   </label> 
   
-  
+  <div style="display: none;">
   <h3>Chức vụ (Viết hoa): Không cần chọn
     <input id="1a9a" name="1a9a"   style="width: 50%;height: 40px;" font-size: 19px; readonly>
   
@@ -577,6 +577,7 @@
     <textarea  id="1a9b" name="1a9b" rows="2" style="width: 50%;"  readonly></textarea>
   
   </h3>
+  </div>
   
   <!--code lấy thông tin ô 1a2 1a4 1a5 từ 1a1 va 1a3-->
  
@@ -3142,13 +3143,20 @@ function getNguoiPhienDich() {
 // Hàm đọc dữ liệu một danh sách select
 function readList(containerId) {
 const box = document.getElementById(containerId);
+if (!box) return [];
 const result = [];
  
     [...box.children].forEach(row => {
+      // tìm input ẩn chứa dấu ,
+      const separatorInput = row.querySelector('.dkd-separator');
+
       result.push({
         diem: row.querySelector('.diem').value,
         khoan: row.querySelector('.khoan').value,
         dieu: row.querySelector('.dieu').value,
+        
+        // lấy giá trị dấu , từ input ẩn
+        separator: separatorInput ? separatorInput.value : ''
        
       });
     });
@@ -3157,8 +3165,9 @@ const result = [];
 
 
 
+
 // Lưu từng danh sách thành mảng riêng
-data.ds1 = readList("ds1"); // DS3
+data.ds1 = readList("ds1"); 
 data.ds3 = readList("ds3"); // DS3
 data.ds4 = readList("ds4"); // DS4
 
@@ -3217,45 +3226,7 @@ data.ds4 = readList("ds4"); // DS4
   
   
   
-  <script>
   
-  //hàm cho nút reset lại form
-  
-  function resetForm() {
-    document.querySelectorAll("input, select, textarea").forEach(el => {
-      if (["button", "submit", "radio", "checkbox"].includes(el.type)) return;
-      el.value = "";
-    });
-    document.querySelectorAll('input[name="loaiChungKien"]').forEach(el => {
-      el.checked = el.value === "canhan"; // gán lại mặc định
-    });
-  
-   
-  
-    // Làm mới mảng toàn cục
-    dsNguoiPhienDich = [];
-    dsCaNhan = [];
-    dsCaNhan2 = [];
-    dsCaNhan3 = [];
-    DsCaNhan4 = [];
-
-    dsCoQuan = [];
-
-    ds1 = [];
-    ds2 = [];
-    ds3 = [];
-    ds4 = [];
-
-    check_duoc_giai_trinh = [];
-    check_khong_giai_trinh = []
-    
-  
-    alert("🔁 Đã làm mới toàn bộ form!");
-  }
-  //kết thúc hàm cho nút reset lại form
-  
-  
-    </script>
   
   
   
@@ -3366,6 +3337,38 @@ data.ds4 = readList("ds4"); // DS4
         <option value="2">Vừa được, vừa không</option>
       </select>
       <br>
+
+      <input type="hidden"  id="ketquagiaitrinh" name="ketquagiaitrinh" value="1">
+      <!-- code hiển thị đoạn 2 ngày và đoạn 5 ngày-->
+      <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const loaiQuyenSelect = document.getElementById("loai_quyen");
+        const ketQuaGiaiTrinhInput = document.getElementById("ketquagiaitrinh");
+    
+        function updateKetQuaGiaiTrinh() {
+            const selectedValue = loaiQuyenSelect.value;
+            
+            // Logic của bạn:
+            // Nếu select.value là "0" (Không được quyền giải trình) -> input.value là RỖNG ("")
+            // Nếu select.value là khác "0" (là "1" hoặc "2") -> input.value là "1"
+            
+            if (selectedValue === "0") {
+                ketQuaGiaiTrinhInput.value = ""; // Rỗng
+            } else {
+                ketQuaGiaiTrinhInput.value = "1"; // Giá trị 1
+            }
+        }
+    
+        // Lắng nghe sự kiện thay đổi trên thẻ select
+        loaiQuyenSelect.addEventListener("change", updateKetQuaGiaiTrinh);
+    
+        // Chạy lần đầu để đảm bảo giá trị khởi tạo đúng (nếu có giá trị mặc định)
+        updateKetQuaGiaiTrinh();
+    });
+    </script>
+
+      <!--kết thúc code hiển thị đoạn 2 ngày và đoạn 5 ngày-->
+
       <label>1. Nội dung không được quyền giải trình:
     
         <div class="box">
@@ -3439,7 +3442,12 @@ data.ds4 = readList("ds4"); // DS4
           function renderDS1() {
             const box = document.getElementById("ds1");
             box.innerHTML = "";
+            
+            if (!sharedDKD || sharedDKD.length === 0) return;
+            const totalItem = sharedDKD.length;
+
             sharedDKD.forEach((item, idx) => {
+              const isLast = (idx === totalItem - 1);
               const row = document.createElement("div");
               row.className = "row";
               row.dataset.index = idx;
@@ -3447,6 +3455,25 @@ data.ds4 = readList("ds4"); // DS4
               const sd = createDiemSelect(item.diem);
               const sk = createKhoanSelect(item.khoan);
               const sdi = createDieuSelect(item.dieu);
+
+              //tạo input ẩn để lưu dấu ,
+              const separatorInput = document.createElement("input");
+              separatorInput.type = "hidden"; // ẩn khỏi giao diện
+              separatorInput.className = "dkd-separator";
+              separatorInput.value = isLast ? "" : ",";
+
+             
+
+              // tạo dấu ,
+              const separator = document.createElement("span");
+              separator.style.marginLeft = "5px";
+              
+              if (isLast) {
+                separator.textContent = "";
+              }
+              else {
+                separator.textContent = ",";
+              }
           
               // change handlers update sharedDKD then re-render both lists
               [sd, sk, sdi].forEach(sel => {
@@ -3463,6 +3490,8 @@ data.ds4 = readList("ds4"); // DS4
               row.appendChild(sk);
               row.appendChild(document.createTextNode("Điều:"));
               row.appendChild(sdi);
+              row.appendChild(separator);
+              row.appendChild(separatorInput);
           
               // delete button (affects shared array)
               const del = document.createElement("button");
@@ -3513,7 +3542,12 @@ data.ds4 = readList("ds4"); // DS4
           function renderDS2() {
             const box = document.getElementById("ds2");
             box.innerHTML = "";
+            
+            if (!sharedDKD || sharedDKD.length === 0) return;
+            const totalItem = sharedDKD.length;
+
             sharedDKD.forEach((item, idx) => {
+              const isLast = (idx === totalItem - 1);
               const row = document.createElement("div");
               row.className = "row";
               row.dataset.index = idx;
@@ -3521,12 +3555,32 @@ data.ds4 = readList("ds4"); // DS4
               const sd = createDiemSelect(item.diem);
               const sk = createKhoanSelect(item.khoan);
               const sdi = createDieuSelect(item.dieu);
+
+              //tạo input ẩn để lưu dấu ,
+              const separatorInput = document.createElement("input");
+              separatorInput.type = "hidden"; // ẩn khỏi giao diện
+              separatorInput.className = "dkd-separator";
+              separatorInput.value = isLast ? "" : ",";
+
+             
+
+              // tạo dấu ,
+              const separator = document.createElement("span");
+              separator.style.marginLeft = "5px";
+              
+              if (isLast) {
+                separator.textContent = "";
+              }
+              else {
+                separator.textContent = ",";
+              }
           
+              // change handlers update sharedDKD then re-render both lists
               [sd, sk, sdi].forEach(sel => {
                 sel.addEventListener("change", () => {
                   const i = Number(row.dataset.index);
                   sharedDKD[i] = { diem: sd.value, khoan: sk.value, dieu: sdi.value };
-                  renderAll();
+                  renderAll(); // re-render both DS1 & DS2 to stay in sync
                 });
               });
           
@@ -3536,7 +3590,10 @@ data.ds4 = readList("ds4"); // DS4
               row.appendChild(sk);
               row.appendChild(document.createTextNode("Điều:"));
               row.appendChild(sdi);
-          
+              row.appendChild(separator);
+              row.appendChild(separatorInput);
+
+
               const del = document.createElement("button");
               del.textContent = "Xóa";
               del.style.background = "red"; del.style.color = "white";
@@ -3555,7 +3612,13 @@ data.ds4 = readList("ds4"); // DS4
           function renderDS3() {
             const box = document.getElementById("ds3");
             box.innerHTML = "";
+            // thêm danh sách 1
+
+            if (!ds3 || ds3.length === 0) return;
+            const totalItem = ds3.length;
+
             ds3.forEach((item, idx) => {
+              const isLast = (idx === totalItem - 1);
               const row = document.createElement("div");
               row.className = "row";
               row.dataset.index = idx;
@@ -3563,11 +3626,32 @@ data.ds4 = readList("ds4"); // DS4
               const sd = createDiemSelect(item.diem);
               const sk = createKhoanSelect(item.khoan);
               const sdi = createDieuSelect(item.dieu);
+
+              //tạo input ẩn để lưu dấu ,
+              const separatorInput = document.createElement("input");
+              separatorInput.type = "hidden"; // ẩn khỏi giao diện
+              separatorInput.className = "dkd-separator";
+              separatorInput.value = isLast ? "" : ",";
+
+             
+
+              // tạo dấu ,
+              const separator = document.createElement("span");
+              separator.style.marginLeft = "5px";
+              
+              if (isLast) {
+                separator.textContent = "";
+              }
+              else {
+                separator.textContent = ",";
+              }
           
+              // change handlers update sharedDKD then re-render both lists
               [sd, sk, sdi].forEach(sel => {
                 sel.addEventListener("change", () => {
                   const i = Number(row.dataset.index);
                   ds3[i] = { diem: sd.value, khoan: sk.value, dieu: sdi.value };
+                  // re-render both DS1 & DS2 to stay in sync
                 });
               });
           
@@ -3577,7 +3661,10 @@ data.ds4 = readList("ds4"); // DS4
               row.appendChild(sk);
               row.appendChild(document.createTextNode("Điều:"));
               row.appendChild(sdi);
-          
+              row.appendChild(separator);
+              row.appendChild(separatorInput);
+            // kết thúc thêm ds1
+            
               const del = document.createElement("button");
               del.textContent = "Xóa";
               del.style.background = "red"; del.style.color = "white";
@@ -3594,7 +3681,13 @@ data.ds4 = readList("ds4"); // DS4
           function renderDS4() {
             const box = document.getElementById("ds4");
             box.innerHTML = "";
+            // thêm danh sách 1
+
+            if (!ds4 || ds4.length === 0) return;
+            const totalItem = ds4.length;
+
             ds4.forEach((item, idx) => {
+              const isLast = (idx === totalItem - 1);
               const row = document.createElement("div");
               row.className = "row";
               row.dataset.index = idx;
@@ -3602,11 +3695,32 @@ data.ds4 = readList("ds4"); // DS4
               const sd = createDiemSelect(item.diem);
               const sk = createKhoanSelect(item.khoan);
               const sdi = createDieuSelect(item.dieu);
+
+              //tạo input ẩn để lưu dấu ,
+              const separatorInput = document.createElement("input");
+              separatorInput.type = "hidden"; // ẩn khỏi giao diện
+              separatorInput.className = "dkd-separator";
+              separatorInput.value = isLast ? "" : ",";
+
+             
+
+              // tạo dấu ,
+              const separator = document.createElement("span");
+              separator.style.marginLeft = "5px";
+              
+              if (isLast) {
+                separator.textContent = "";
+              }
+              else {
+                separator.textContent = ",";
+              }
           
+              // change handlers update sharedDKD then re-render both lists
               [sd, sk, sdi].forEach(sel => {
                 sel.addEventListener("change", () => {
                   const i = Number(row.dataset.index);
                   ds4[i] = { diem: sd.value, khoan: sk.value, dieu: sdi.value };
+                
                 });
               });
           
@@ -3616,20 +3730,22 @@ data.ds4 = readList("ds4"); // DS4
               row.appendChild(sk);
               row.appendChild(document.createTextNode("Điều:"));
               row.appendChild(sdi);
-          
+              row.appendChild(separator);
+              row.appendChild(separatorInput);
+            // kết thúc thêm ds1
+            
               const del = document.createElement("button");
               del.textContent = "Xóa";
               del.style.background = "red"; del.style.color = "white";
               del.addEventListener("click", () => {
-                ds4.splice(idx,1);
-                renderDS4();
+                ds3.splice(idx,1);
+                renderDS3();
               });
               row.appendChild(del);
           
               box.appendChild(row);
             });
           }
-          
           /* render all */
           function renderAll() {
             renderDS1();
@@ -3645,10 +3761,7 @@ data.ds4 = readList("ds4"); // DS4
 <script>
 
           /* ===== add buttons handlers ===== */
-          document.getElementById("add1").addEventListener("click", () => {
-            sharedDKD.push({diem:"", khoan:"", dieu:""});
-            renderAll();
-          });
+         
           document.getElementById("add2").addEventListener("click", () => {
             sharedDKD.push({diem:"", khoan:"", dieu:""});
             renderAll();
@@ -3919,7 +4032,7 @@ data.ds4 = readList("ds4"); // DS4
       
       bản có nội dung và giá trị như nhau; đã đọc lại cho những người có tên nêu trên cùng nghe, công nhận là đúng và cùng ký tên dưới đây; giao cho ông (bà)
       <input type="text" id="nvp" name="nvp"  style="width: 25%;height: 40px;">
-      <button type="button" onclick="copyValue2()">Lấy thông tin người vi phạm</button>
+      <button type="button" style="display:none;" onclick="copyValue2()">Lấy thông tin người vi phạm</button>
       <br>
   
       <script>
@@ -4099,13 +4212,20 @@ data.ds4 = readList("ds4"); // DS4
 // Hàm đọc dữ liệu một danh sách select
 function readList(containerId) {
 const box = document.getElementById(containerId);
+if (!box) return [];
 const result = [];
  
     [...box.children].forEach(row => {
+      // tìm input ẩn chứa dấu ,
+      const separatorInput = row.querySelector('.dkd-separator');
+
       result.push({
         diem: row.querySelector('.diem').value,
         khoan: row.querySelector('.khoan').value,
         dieu: row.querySelector('.dieu').value,
+        
+        // lấy giá trị dấu , từ input ẩn
+        separator: separatorInput ? separatorInput.value : ''
        
       });
     });
@@ -5237,20 +5357,30 @@ const ds4Data = readList("ds4");
 // Hàm đọc dữ liệu một danh sách select
 function readList(containerId) {
 const box = document.getElementById(containerId);
+if (!box) return [];
 const result = [];
  
     [...box.children].forEach(row => {
+      // tìm input ẩn chứa dấu ,
+      const separatorInput = row.querySelector('.dkd-separator');
+
       result.push({
         diem: row.querySelector('.diem').value,
         khoan: row.querySelector('.khoan').value,
         dieu: row.querySelector('.dieu').value,
+        
+        // lấy giá trị dấu , từ input ẩn
+        separator: separatorInput ? separatorInput.value : ''
        
       });
     });
   return result;
 }
 
-const ds1Data = readList("ds1");
+
+
+
+const ds1Data = readList("ds1"); 
 
 
 
@@ -5264,7 +5394,7 @@ const ds1Data = readList("ds1");
         // ======= 5️⃣ GỘP DỮ LIỆU =======
         const data = {
           ...formData,    // Dữ liệu form
-          ds1: ds1Data,
+          ds1: ds1Data, 
                };
     
         // ======= 6️⃣ XUẤT FILE WORD DUY NHẤT =======
@@ -5819,7 +5949,7 @@ const ds1Data = readList("ds1");
         }
     </script> </select>
     có nội dung và giá trị như nhau. Giao cho ông bà <input type="text" id="6a23" name="6a23" value="" style="width: 50%;height: 40px;">
-    <button type="button" onclick="copyValue5()">Lấy thông tin người vi phạm</button>
+    <button type="button" style="display:none;" onclick="copyValue5()">Lấy thông tin người vi phạm</button>
     <br>
     </h4>
     <script>
@@ -8925,8 +9055,8 @@ const ds1Data = readList("ds1");
   <br>
     <button type="button" onclick="saveData()"  style="background-color: green">Lưu dữ liệu hết</button>
   
-    <button type="button" onclick="resetForm()"  style="background-color: orange">🔁 Reset form</button>
-  <button type="button" onclick="searchData()">Tìm kiếm</button>
+    <button type="button" onclick="window.location.reload(true)"  style="background-color: orange">Reset form</button>
+    <button type="button" onclick="searchData()">Tìm kiếm</button>
   
   
   
@@ -9259,18 +9389,26 @@ const tvtg = [];
 // Hàm đọc dữ liệu một danh sách select
 function readList(containerId) {
 const box = document.getElementById(containerId);
+if (!box) return [];
 const result = [];
  
     [...box.children].forEach(row => {
+      // tìm input ẩn chứa dấu ,
+      const separatorInput = row.querySelector('.dkd-separator');
+
       result.push({
         diem: row.querySelector('.diem').value,
         khoan: row.querySelector('.khoan').value,
         dieu: row.querySelector('.dieu').value,
+        
+        // lấy giá trị dấu , từ input ẩn
+        separator: separatorInput ? separatorInput.value : ''
        
       });
     });
   return result;
 }
+
 
 
 
@@ -9531,7 +9669,7 @@ window.dsNguoiPhienDich = dsNguoiPhienDich;
   }
   
   function closeResultPopup() {
-  console.log("Đóng popup kết quả tìm kiếm");
+  
   const popup = document.getElementById("resultPopup");
   popup.style.display = "none";
   document.getElementById("resultTable").innerHTML = "";
@@ -9835,8 +9973,7 @@ if (!Array.isArray(data.dsCaNhan4) || data.dsCaNhan4.length === 0) {
 }
 
 data.dsCaNhan4.forEach((item, index) => {
-  console.log(`bắt đầu xử lý người thứ: ${index}`);
-  console.log(`dữ liệu người này:`, item);
+ 
   body.innerHTML += `
   <tr>
         <td>${item.hoTen4 || ""}</td>
