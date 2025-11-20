@@ -2657,9 +2657,15 @@ function renderNguoiphiendich(data) {
     <!--kết thúc code hiển thị thông tin thẻ 1a3 và 1a1-->
   </h3>
   
-    <label for="4a9">Lý do lập biên bản tại trụ sở cơ quan hoặc địa điểm khác 
-        (nếu lập biên bản VHPC tại Công an xã thì ghi lý do còn không thì bỏ trống):</label>
-    <input type="text" id="4a9" name="4a9" data-default="……………………………………………………………………">
+    <label for="4a9">Lý do lập biên bản tại trụ sở cơ quan hoặc địa điểm khác
+      <select id="4a9a" name="4a9a" style="width: 100%">
+        <option value="">Chọn vào đây nếu không lập biên bản tại nơi xảy ra sự việc</option>
+        <option value="trụ sở Cơ quan">trụ sở Cơ quan</option>
+        <option value="địa điểm khác">địa điểm khác</option>
+      </select>
+       
+        (nếu lập biên bản VHPC tại Công an xã hoặc địa điểm khác thì ghi lý do còn không thì bỏ qua):</label>
+    <input type="text" id="4a9" name="4a9" value="">
   
   
     
@@ -2675,7 +2681,7 @@ function renderNguoiphiendich(data) {
     id="4a10" 
     name="4a10" 
     rows="4" 
-   style="width=400px; width: 100%;"
+   style=" width: 100%;"
     cols="80">Biên bản làm việc</textarea>
   
   <script>
@@ -3102,6 +3108,17 @@ function getNguoiPhienDich() {
       });
     });
     
+          
+    const npd = document.getElementById('dsNguoiPhienDich');
+const dsNguoiPhienDich = [];
+    [...npd.children].forEach(nhomnpd => {
+      dsNguoiPhienDich.push({
+        npd1: nhomnpd.querySelector('.npd1').value,
+        npd2: nhomnpd.querySelector('.npd2').value,
+        npd3: nhomnpd.querySelector('.npd3').value     
+  
+      });
+    });
   
   
        
@@ -3173,9 +3190,7 @@ data.ds4 = readList("ds4"); // DS4
 
 
 
-      // 2️⃣ Lấy dữ liệu Người phiên dịch
-      const dsNguoiPhienDich = getNguoiPhienDich();
-
+  
   
     
   
@@ -3269,7 +3284,7 @@ data.ds4 = readList("ds4"); // DS4
       <label   >9. Các biện pháp ngăn chặn và đảm bảo xử lý vi phạm hành chính  được áp dung (Nếu không có thì bỏ qua): </label>
       <select id="4a23" name="4a23" style="width: 100%;" multiple size="10">
          
-            <option value="Không có">Không</option>
+            <option value="Không">Không</option>
             <option value="Tạm giữ người">Tạm giữ người</option>
             <option value="Áp giải người vi phạm">Áp giải người vi phạm</option>
             <option value="Tạm giữ tang vật, phương tiện vi phạm hành chính, giấy phép, chứng chỉ hành nghề">Tạm giữ tang vật, phương tiện vi phạm hành chính, giấy phép, chứng chỉ hành nghề</option>
@@ -3283,44 +3298,50 @@ data.ds4 = readList("ds4"); // DS4
             
             <textarea id="4a23a" name="4a23a" readonly rows="12" cols="120" style="width: 100%;">Không</textarea>
             
-            <script>
+ <!--hàm các biện pháp ngăn chặn ở thẻ 4a23 và 4a23a-->
+<script>
 
-      const select16 = document.getElementById("4a23");
-      const output16 = document.getElementById("4a23a");
-    
-      // Ghi nhớ option đang chọn
-      select16.addEventListener("mousedown", function(e) {
-        e.preventDefault(); // chặn hành vi mặc định (Ctrl)
-        const option = e.target;
-    
-        if (option.tagName === "OPTION") {
-          // Đảo trạng thái chọn
-          option.selected = !option.selected;
-    
-          // Nếu chọn "Không" thì bỏ hết option khác
-          if (option.value === "Không" && option.selected) {
-            Array.from(select16.options).forEach(opt => {
-              if (opt.value !== "Không") opt.selected = false;
-            });
-          } 
-          // Nếu chọn cái khác thì bỏ chọn "Không"
-          else if (option.value !== "Không" && option.selected) {
-            select16.querySelector("option[value='Không']").selected = false;
-          }
-    
-          // Cập nhật danh sách chọn
-          const selectedOptions = Array.from(select16.options)
-            .filter(opt => opt.selected)
-            .map(opt => opt.value);
-    
-          const result = selectedOptions.join("; ") || "Không";
-          output16.value = result;
-        }
-      });
-    </script>
+  const select16 = document.getElementById("4a23");
+  const output16 = document.getElementById("4a23a");
 
-             
-  <!-- kết thúc hàm các biện pháp ngăn chặn-->        
+  // Ghi nhớ option đang chọn
+  select16.addEventListener("mousedown", function(e) {
+    e.preventDefault(); // chặn hành vi mặc định (Ctrl)
+    const option = e.target;
+
+    if (option.tagName === "OPTION") {
+      // Đảo trạng thái chọn
+      option.selected = !option.selected;
+
+      // Nếu chọn "Không" thì bỏ hết option khác
+      if (option.value === "Không" && option.selected) {
+        Array.from(select16.options).forEach(opt => {
+          if (opt.value !== "Không") opt.selected = false;
+        });
+      } 
+      // Nếu chọn cái khác thì bỏ chọn "Không"
+      else if (option.value !== "Không" && option.selected) {
+        select16.querySelector("option[value='Không']").selected = false;
+      }
+
+      // Cập nhật danh sách chọn
+      const selectedOptions = Array.from(select16.options)
+        .filter(opt => opt.selected)
+        .map(opt => opt.value);
+
+      const result = selectedOptions.join("; ") || "Không";
+      output16.value = result;
+
+      if (output16) {
+        output16.value = result;
+      } else {
+        console.error("không tìm thấy thẻ textarea có ID 4a23a");
+      }
+    }
+  });
+</script>
+<!--kết thúc hàm các biện pháp ngăn chặn ở thẻ 4a23 và 4a23a-->
+        
   
      
   
@@ -4157,6 +4178,18 @@ data.ds4 = readList("ds4"); // DS4
   
       });
     });
+
+          
+    const npd = document.getElementById('dsNguoiPhienDich');
+const dsNguoiPhienDich = [];
+    [...npd.children].forEach(nhomnpd => {
+      dsNguoiPhienDich.push({
+        npd1: nhomnpd.querySelector('.npd1').value,
+        npd2: nhomnpd.querySelector('.npd2').value,
+        npd3: nhomnpd.querySelector('.npd3').value     
+  
+      });
+    });
   
         // lấy dữ liệu tang vật mục 1 phần 3 chèn vào template
         const container = document.getElementById('tvtg');
@@ -4246,7 +4279,8 @@ const ds4Data = readList("ds4");
         const data = {
           ...formData,          // Dữ liệu form
           dsCaNhan,             // Mảng người chứng kiến cá nhân
-          dsCoQuan,             // Mảng người chứng kiến cơ quan
+          dsCoQuan,
+          dsNguoiPhienDich,             // Mảng người chứng kiến cơ quan
           tvtg,                // lấy dữ liệu tang vật tại mục 1 phần 3
           ds1: ds1Data,  
           
@@ -4844,6 +4878,7 @@ const ds4Data = readList("ds4");
           else if (option.value !== "Không" && option.selected) {
             select4.querySelector("option[value='Không']").selected = false;
           }
+          
     
           // Cập nhật danh sách chọn
           const selectedOptions = Array.from(select4.options)
@@ -9417,7 +9452,7 @@ const result = [];
 data.ds3 = readList("ds3"); // DS3
 data.ds4 = readList("ds4"); // DS4
 
-console.log(ds1, ds2, ds3, ds4);
+
 // kết thúc hàm lưu 4 danh sách điểm, khoản, điều
 
 const dsCaNhan = [];
@@ -9988,7 +10023,7 @@ data.dsCaNhan4.forEach((item, index) => {
 });
 }
 
-console.log(`đã thêm hàng cho người thứ: ${index}`);
+
 
 function dongPopup() {
 document.getElementById("popupDS4").style.display = "none";
@@ -10038,7 +10073,7 @@ dongPopup();
 </div>
 <!--kết thúc hàm lấy dữ liệu người vi phạm đưa vào biên bản làm việc-->
 
-  
+
   
   </body>
   </html>
