@@ -1013,9 +1013,20 @@ function copyNoiThuongTru() {
     // Load lại danh sách xã/phường tương ứng
     loadXa2();
 
+    // Gán cho nơi ở hiện tại
+    document.getElementById("10a17").value = tinh;
+
+    // Load lại danh sách xã/phường tương ứng
+    loadXa4();
+
     // Chờ danh sách xã/phường load xong rồi gán
     setTimeout(() => {
         document.getElementById("2a9").value = xa;
+    }, 100); // 100ms là đủ
+
+    // Chờ danh sách xã/phường load xong rồi gán
+    setTimeout(() => {
+        document.getElementById("10a18").value = xa;
     }, 100); // 100ms là đủ
 
     // Gán địa chỉ chi tiết
@@ -4215,7 +4226,70 @@ data.ds4 = readList("ds4"); // DS4
   
   <input type="text" id="4a33" name="4a33" value="" style="width: 100%;height: 40px;">
    để giải quyết vụ việc.    
+   <!--code hiển thị thông tin thẻ 1a3 và 1a1-->
+   <div>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+  const input1a3 = document.getElementById('1a3');
+  const input1a1 = document.getElementById('1a1');
+
+
+  const input4a33 = document.getElementById('4a33');
+  
+  // Biến lưu trữ giá trị mặc định (được tính toán)
+  let defaultValue = '';
+  
+  /**
+   * Hàm tính toán và gán giá trị mặc định mới cho input 5a50
+   */
+  function updateDefaultValue() {
+      // Lấy giá trị hiện tại đã được chọn từ thẻ <select>
+      const value1a3 = input1a3.value;
+      const value1a1 = input1a1.value;
       
+      
+      // Tính toán lại chuỗi mặc định
+      const newValue = `Công an ${value1a3}, ${value1a1}`;
+      
+      // Nếu input 5a50 đang hiển thị giá trị mặc định cũ, thì cập nhật nó
+      if (input4a33.value === defaultValue) {
+          input4a33.value = newValue;
+      }
+      
+      // Cập nhật giá trị mặc định mới
+      defaultValue = newValue;
+  }
+
+  // --- 1. GÁN GIÁ TRỊ BAN ĐẦU ---
+  updateDefaultValue(); // Gọi lần đầu để thiết lập giá trị khi trang tải
+  
+  // --- 2. THEO DÕI THAY ĐỔI TỪ SELECT ---
+  // Cập nhật giá trị mặc định mỗi khi <select> 1a3 thay đổi
+  input1a3.addEventListener('change', updateDefaultValue);
+  
+  // Cập nhật giá trị mặc định mỗi khi <select> 1a1 thay đổi
+  input1a1.addEventListener('change', updateDefaultValue);
+  
+
+  // --- 3. XỬ LÝ SỰ KIỆN FOCUS/BLUR CHO 5a50 ---
+
+  
+
+  // Khi thoát khỏi (blur)
+  input4a33.addEventListener('blur', function() {
+      // Kiểm tra nếu người dùng không nhập gì mới (value rỗng), thì gán lại giá trị mặc định
+      if (this.value === '') {
+          this.value = defaultValue;
+      }
+  });
+
+});
+
+    </script>
+  </div>
+  <!--kết thúc code hiển thị thông tin thẻ 1a3 và 1a1-->
+     
+
     </h3>
       
                
@@ -9641,7 +9715,8 @@ const ds1Data = readList("ds1");
         
         ["5a23", "4a17"],
         
-       
+       ["2a8", "tinh4"],
+       ["2a9", "xa4"],
   
         ["6a1", "7a6", "9a12"],
         ["6a4", "7a7", "9a13"],
@@ -9706,6 +9781,8 @@ const ds1Data = readList("ds1");
     groups.forEach(linkGroup);
     </script>
   <!--kết thúc hàm liên kết 2 chiều-->
+
+  
 
   <!--bổ sung liên kết 2 chiều cho xa6 và xa7-->
 <script>
@@ -10572,9 +10649,18 @@ document.getElementById("2a7").value = item.ngheNghiep4 || "";
 document.getElementById("2a8").value = item.tinh4 || "";
 loadXa2();
 
+// Tỉnh nơi hiện tại
+document.getElementById("2a8a").value = item.tinh4 || "";
+loadXa3();
+
 // chờ xã load rồi gán
 setTimeout(() => {
     document.getElementById("2a9").value = item.xa4 || "";
+}, 100);
+
+// chờ xã load rồi gán
+setTimeout(() => {
+    document.getElementById("2a9a").value = item.xa4 || "";
 }, 100);
 
 document.getElementById("2a10").value = item.diaChi4 || "";
@@ -10606,6 +10692,7 @@ dongPopup();
 
 
 </div>
+  </div>
   
 <!-- hàm đăng nhập vào trang html phần dưới-->
 <script>
