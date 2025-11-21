@@ -997,37 +997,8 @@ function copyNoiThuongTru() {
   <h3>1. Tang vật, phương tiện vi phạm hành chính, giấy phép, chứng chỉ hành nghề (nhập thông tin vào biên bản vi phạm hành chính - nếu không có thì bỏ qua)
   
   <!-- Danh sách các nhóm -->
-  <div id="tvtg">
-    <div class="tvtg">
-    <label>STT
-      <input class="stt" style="width: 10%;height: 40px;" >
-  
-      Tên tang vật, phương tiện vi phạm hành chính, giấy phép, chứng chỉ hành nghề
-      <input class="tenTangVat" style="width: 50%;height: 40px;" >
-  
-      Đơn vị tính
-      <input class="donViTinh" style="width: 25%;height: 40px;" >
-  
-      Số lượng
-      <input class="soLuong" style="width: 10%;height: 40px;" >
-  
-      Chủng loại
-      <input class="chungLoai" style="width: 25%;height: 40px;" >
-  
-      Tình trạng đặc điểm
-      <input class="tinhTrang" style="width: 100%;height: 40px;" >
-  
-      Ghi chú
-      <input class="ghiChu" style="width: 50%;height: 40px;" ></label>
-  
-      <div class="btn">
-        <button type="button" class="copyTo3" style="background-color: green; color: white;">→ Chuyển dữ liệu xuống phần 2</button>
-        <button type="button" class="copyTo4" style="background-color: blue; color: white;">→ Chuyển dữ liệu xuống phần 3</button>
-        <button type="button" class="xoa" style="background-color: red; color: white;">Xóa</button>
-      </div>
-      
-
-  </div>
+  <div id="tvtg" class="tvtg">
+    
   </div>
   
   <!-- Nút thêm ở dưới -->
@@ -1181,34 +1152,8 @@ function copyNoiThuongTru() {
   <!-- ===== 2. Tang vật, phương tiện vi phạm hành chính ===== -->
   <h3>2. Tang vật, phương tiện vi phạm hành chính (nhập thông tin vào mục 2 của biên bản tạm giữ, biên bản trả - nếu không có thì bỏ qua)
   <!-- Danh sách các nhóm -->
-  <div id="tvtg3">
-    <div class="tvtg3">
-      <label>STT
-        <input class="stt3" style="width: 10%;height: 40px;" > 
-    
-        Tên tang vật
-        <input class="tenTangVat3" style="width: 50%;height: 40px;" >
-    
-        Đơn vị tính
-        <input class="donViTinh3" style="width: 25%;height: 40px;" >
-    
-        Số lượng
-        <input class="soLuong3" style="width: 10%;height: 40px;" >
-    
-        Chủng loại
-        <input class="chungLoai3" style="width: 25%;height: 40px;" >
-    
-        Tình trạng đặc điểm
-        <input class="tinhTrang3" style="width: 100%;height: 40px;" >
-    
-        Ghi chú
-        <input class="ghiChu3" style="width: 50%;height: 40px;" ></label>
-    
-        <div class="btn">
-          <button type="button" class="xoa" style="background-color: red; color: white;">Xóa</button>
-        </div>
-  
-    </div>
+  <div id="tvtg3" class="tvtg3" style="display:block;">
+   
   
   </div>
   
@@ -1274,32 +1219,8 @@ function copyNoiThuongTru() {
   
   
   <!-- Danh sách các nhóm -->
-  <div id="tvtg4">
-    <div class="tvtg4">
-      <label>STT
-        <input class="stt4" style="width: 10%;height: 40px;" > 
-    
-        Tên giấy phép, chứng chỉ
-        <input class="tenTangVat4" style="width: 50%;height: 40px;" >
-    
-      
-    
-        Số lượng
-        <input class="soLuong4" style="width: 10%;height: 40px;" >
-    
-       
-    
-        Tình trạng đặc điểm
-        <input class="tinhTrang4" style="width: 100%;height: 40px;" >
-    
-        Ghi chú
-        <input class="ghiChu4" style="width: 50%;height: 40px;" ></label>
-    
-        <div class="btn">
-          <button type="button" class="xoa" style="background-color: red; color: white;">Xóa</button>
-        </div>
-  
-    </div>
+  <div id="tvtg4" class="tvtg4" style="display:block;">
+   
 
   </div>
   
@@ -2201,9 +2122,35 @@ function renderNguoiphiendich(data) {
         if (xaEl) xaEl.value = item["10a27"];
     }
 
+    // ---- tinh6 & xa6 ----
+    if (item["tinh6"]) {
+        let tinhEl = form.querySelector('[name="tinh6"]');
+        if (tinhEl) {
+            tinhEl.value = item["tinh6"];
+            loadXa6();
+        }
+    }
+    if (item["xa6"]) {
+        let xaEl = form.querySelector('[name="xa6"]');
+        if (xaEl) xaEl.value = item["xa6"];
+    }
+
+      // ---- tinh7 & xa7 ----
+      if (item["tinh7"]) {
+        let tinhEl = form.querySelector('[name="tinh7"]');
+        if (tinhEl) {
+            tinhEl.value = item["tinh7"];
+            loadXa7();
+        }
+    }
+    if (item["xa7"]) {
+        let xaEl = form.querySelector('[name="xa7"]');
+        if (xaEl) xaEl.value = item["xa7"];
+    }
+
     // 🟢 Gán giá trị cho tất cả input còn lại
     for (let key in item) {
-        const skipList = ["1a3", "2a9", "2a9a", "10a18", "10a27"]; 
+        const skipList = ["1a3", "2a9", "2a9a", "10a18", "10a27", "tinh6", "tinh7"]; 
         if (skipList.includes(key)) continue;
 
         let el = form.querySelector(`[name="${key}"]`);
@@ -3048,7 +2995,259 @@ function getNguoiPhienDich() {
   <h5 style="font-weight: normal;"> <sup>(8)</sup> Mô tả vụ việc; giờ, ngày, tháng, năm, địa điểm xảy ra vi phạm,... hành vi vi phạm cụ thể. Đối với vi phạm trên biển cần ghi rõ tên tàu, công suất máy chính, tổng dung tích/trọng tải toàn phần, địa điểm xảy ra vi phạm thuộc nội thủy/lãnh hải/vùng tiếp giáp lãnh hải/vùng đặc quyền kinh tế/thềm lục địa/các đảo thuộc chủ quyền, quyền chủ quyền, quyền tài phán quốc gia của Việt Nam và tọa độ (vĩ độ, kinh độ), hành trình của tàu.</h5>
   <h4  style="font-weight: normal; "><i>Vào lúc ... giờ ... phút, 
     ngày ... tháng ... năm ... tại ....., ......... có hành vi ......</i></h4>
-      <textarea id="4a16" name="4a16" rows="6" style="width: 100%;"></textarea>
+    <div>
+      <label><div>
+      Vào lúc
+      <select id="gio2" name="gio2"  style="width: 10%;height: 40px;">
+        <option value=""></option>
+      </select>
+      giờ
+      
+      <select id="phut2" name="phut2"  style="width: 10%;height: 40px;">
+        <option value=""></option>
+      </select>
+      phút
+      <script>
+        const selectgio2 = document.getElementById("gio2");
+        const selectphut2 = document.getElementById("phut2");
+      
+        // Tạo option giờ 00 - 23
+        for (let i = 0; i <= 23; i++) {
+          const val = i.toString().padStart(2, "0");
+          const option = document.createElement("option");
+          option.value = val;
+          option.textContent = val;
+          selectgio2.appendChild(option);
+        }
+      
+        // Tạo option phút 00 - 60
+        for (let i = 0; i <= 60; i++) {
+          const val = i.toString().padStart(2, "0");
+          const option = document.createElement("option");
+          option.value = val;
+          option.textContent = val;
+          selectphut2.appendChild(option);
+        }
+      </script>
+      
+        ngày 
+      <select id="ngay2" name="ngay2"   style="width: 10%;height: 40px;">
+        <option value=""></option>
+      </select>
+      tháng
+      <select id="thang2" name="thang2"  style="width: 10%;height: 40px;">
+        <option value=""></option>
+      </select>
+      năm
+      <select id="nam2" name="nam2"  style="width: 20%;height: 40px;">
+        <option value=""></option>
+      </select>
+      
+      
+      <script>
+        const selectngay2 = document.getElementById("ngay2");
+        const selectthang2 = document.getElementById("thang2");
+        const selectnam2 = document.getElementById("nam2");
+      
+        // Tạo option ngày 01 - 31
+        for (let i = 1; i <= 31; i++) {
+          const val = i.toString().padStart(2, "0");
+          const option = document.createElement("option");
+          option.value = val;
+          option.textContent = val;
+          selectngay2.appendChild(option);
+        }
+      
+        // Tạo option tháng 01 - 12
+        for (let i = 1; i <= 12; i++) {
+          const val = i.toString().padStart(2, "0");
+          const option = document.createElement("option");
+          option.value = val;
+          option.textContent = val;
+          selectthang2.appendChild(option);
+        }
+      
+        // Tạo option năm 2025 - 2040
+        for (let i = 2025; i <= 2040; i++) {
+          const option = document.createElement("option");
+          option.value = i;
+          option.textContent = i;
+          selectnam2.appendChild(option);
+        }
+      </script></div>
+      tại
+      <div>
+        <!--Chọn nơi thường trú-->
+        <label for="tinh6" >Chọn tỉnh/thành phố:
+        <select id="tinh6" name="tinh6"style="width: 50%;height: 40px;" onchange="loadXa6()">
+          <option value="">--Chọn tỉnh/thành phố--</option>
+          <option value="tỉnh Vĩnh Long" >tỉnh Vĩnh Long</option>
+          <option value="tỉnh Cà Mau">tỉnh Cà Mau</option>
+          <option value="tỉnh Đồng Nai">tỉnh Đồng Nai</option>
+          <option value="tỉnh Tây Ninh">tỉnh Tây Ninh</option>
+          <option value="tỉnh Đồng Tháp">tỉnh Đồng Tháp</option>
+          <option value="thành phố Hà Nội">thành phố Hà Nội</option>
+          <option value="thành phố Hồ Chí Minh">thành phố Hồ Chí Minh</option>
+          <option value="thành phố Hải Phòng">thành phố Hải Phòng</option>
+          <option value="thành phố Đà Nẵng">thành phố Đà Nẵng</option>
+          <option value="thành phố Huế">thành phố Huế</option>
+          <option value="thành phố Cần Thơ">thành phố Cần Thơ</option>
+          <option value="tỉnh An Giang">tỉnh An Giang</option>
+          <option value="tỉnh Tuyên Quang">tỉnh Tuyên Quang</option>
+          <option value="tỉnh Cao Bằng">tỉnh Cao Bằng</option>
+          <option value="tỉnh Lai Châu">tỉnh Lai Châu</option>
+          <option value="tỉnh Lào Cai">tỉnh Lào Cai</option>
+          <option value="tỉnh Thái Nguyên">tỉnh Thái Nguyên</option>
+          <option value="tỉnh Điện Biên">tỉnh Điện Biên</option>
+          <option value="tỉnh Lạng Sơn">tỉnh Lạng Sơn</option>
+          <option value="tỉnh Sơn La">tỉnh Sơn La</option>
+          <option value="tỉnh Phú Thọ">tỉnh Phú Thọ</option>
+          <option value="tỉnh Bắc Ninh">tỉnh Bắc Ninh</option>
+          <option value="tỉnh Quảng Ninh">tỉnh Quảng Ninh</option>
+          <option value="tỉnh Hưng Yên">tỉnh Hưng Yên</option>
+          <option value="tỉnh Ninh Bình">tỉnh Ninh Bình</option>
+          <option value="tỉnh Thanh Hóa">tỉnh Thanh Hóa</option>
+          <option value="tỉnh Nghệ An">tỉnh Nghệ An</option>
+          <option value="tỉnh Hà Tĩnh">tỉnh Hà Tĩnh</option>
+          <option value="tỉnh Quảng Trị">tỉnh quảng Trị</option>
+          <option value="tỉnh Quảng Ngãi">tỉnh Quảng Ngãi</option>
+          <option value="tỉnh Gia Lai">tỉnh Gia Lai</option>
+          <option value="tỉnh Đắk Lắk">tỉnh Đắk Lắk</option>
+          <option value="tỉnh Khánh Hòa">tỉnh Khánh Hòa</option>
+          <option value="tỉnh Lâm Đồng">tỉnh Lâm Đồng</option>
+          
+         
+        </select></label>
+      
+          <label for="xa6">Chọn xã/phường:
+        <select id="xa6" name="xa6" style="width: 50%;height: 40px;">
+          <option value="">--Chọn xã/phường--</option>
+        </select></label>
+      
+        
+        <script>
+        function loadXa6() {
+               const tinh = document.getElementById("tinh6").value;
+               const xaSelect = document.getElementById("xa6");
+               xaSelect.innerHTML = '<option value="">--Chọn xã/phường--</option>';
+               if (data[tinh]) {
+                 data[tinh].forEach(xa => {
+                   const option = document.createElement("option");
+                   option.value = xa;
+                   option.textContent = xa;
+                   xaSelect.appendChild(option);
+                 });
+               }
+             } 
+      </script>  
+      
+          
+      <label for="diachi6">Nhập địa chỉ chi tiết nơi xảy ra sự việc:
+        <input type="text" id="diachi6" name="diachi6" 
+        style="width: 50%;height: 40px;" > </label>
+      </div> 
+            <!--kết thúc chọn nơi ở hiện tại-->
+           
+      
+              
+      
+      Ông/bà .................... có hành vi
+      <textarea id="hanhvi" name="hanhvi" rows="3" style="width: 100%;"></textarea>
+      
+      
+      </label>
+      
+      <label>Hiển thị
+      
+            <textarea id="4a16" name="4a16" rows="6" style="width: 100%;"></textarea>
+      </label>
+      </div>
+      <!--code hiển thị thông tin hành vi vi phạm-->
+    <div>
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    const inputgio2 = document.getElementById('gio2');
+    const inputphut2 = document.getElementById('phut2');
+    const inputngay2 = document.getElementById('ngay2');
+    const inputthang2 = document.getElementById('thang2');
+    const inputnam2 = document.getElementById('nam2');
+    const inputdiachi6 = document.getElementById('diachi6');
+    const inputxa6 = document.getElementById('xa6');
+    const inputtinh6 = document.getElementById('tinh6');
+    
+    const inputhanhvi = document.getElementById('hanhvi');
+    const input2a1 = document.getElementById('2a1');
+  
+    const input4a16 = document.getElementById('4a16');
+    
+    // Biến lưu trữ giá trị mặc định (được tính toán)
+    let defaultValue = '';
+    
+    /**
+     * Hàm tính toán và gán giá trị mặc định mới cho input 5a50
+     */
+    function updateDefaultValue() {
+        // Lấy giá trị hiện tại đã được chọn từ thẻ <select>
+    const valuegio2 =     inputgio2.value;   
+    const valuephut2 = inputphut2.value;
+    const valuengay2 = inputngay2.value;
+    const valuethang2 = inputthang2.value;
+    const valuenam2 = inputnam2.value;
+    const valuediachi6 = inputdiachi6.value;
+    const valuexa6 =  inputxa6.value;
+    const valuetinh6 =   inputtinh6.value;
+    const value2a1 = input2a1.value;
+    const valuehanhvi = inputhanhvi.value;
+  
+    
+        
+        // Tính toán lại chuỗi mặc định
+        const newValue = `Vào lúc ${valuegio2} giờ ${valuephut2} phút ngày ${valuengay2} tháng ${valuethang2} năm ${valuenam2}, tại ${valuediachi6}, ${valuexa6}, ${valuetinh6}, ${value2a1} có hành vi ${valuehanhvi}`;
+        
+        // Nếu input 5a50 đang hiển thị giá trị mặc định cũ, thì cập nhật nó
+        if (input4a16.value === defaultValue) {
+            input4a16.value = newValue;
+        }
+        
+        // Cập nhật giá trị mặc định mới
+        defaultValue = newValue;
+    }
+  
+    // --- 1. GÁN GIÁ TRỊ BAN ĐẦU ---
+    updateDefaultValue(); // Gọi lần đầu để thiết lập giá trị khi trang tải
+    
+    // --- 2. THEO DÕI THAY ĐỔI TỪ SELECT ---
+    // Cập nhật giá trị mặc định mỗi khi <select> 1a3 thay đổi
+    inputgio2.addEventListener('change', updateDefaultValue);
+    
+    // Cập nhật giá trị mặc định mỗi khi <select> 1a1 thay đổi
+    inputphut2.addEventListener('change', updateDefaultValue);
+    inputngay2.addEventListener('change', updateDefaultValue);
+    inputthang2.addEventListener('change', updateDefaultValue);
+    inputnam2.addEventListener('change', updateDefaultValue);
+    inputdiachi6.addEventListener('change', updateDefaultValue);
+    inputxa6.addEventListener('change', updateDefaultValue);
+    inputtinh6.addEventListener('change', updateDefaultValue);
+    input2a1.addEventListener('change', updateDefaultValue);
+    inputhanhvi.addEventListener('change', updateDefaultValue);
+  
+    // --- 3. XỬ LÝ SỰ KIỆN FOCUS/BLUR CHO 5a50 ---
+  
+    
+  
+    // Khi thoát khỏi (blur)
+    input4a16.addEventListener('blur', function() {
+        // Kiểm tra nếu người dùng không nhập gì mới (value rỗng), thì gán lại giá trị mặc định
+        if (this.value === '') {
+            this.value = defaultValue;
+        }
+    });
+  
+  });
+  
+      </script>
+    </div>
+    <!--kết thúc code hiển thị thông tin hành vi vi phạm-->
       <label for="4a17" >3. Quy định tại: <sup>(9)</sup> </label>
       
        <!--hàm điểm khoản điều-->
@@ -4725,34 +4924,261 @@ const ds4Data = readList("ds4");
   
   <label for="vipham"   >
     <b> 2. Đã thực hiện hành vi vi phạm hành chính <sup>(8)</sup> (Mô tả vụ việc; giờ, ngày, tháng, năm, địa điểm xảy ra vi phạm,... hành vi vi phạm cụ thể): </b>  <br> </label>
+    <div>
+      <label><div>
+      Vào lúc
+      <select id="gio3" name="gio3"  style="width: 10%;height: 40px;">
+        <option value=""></option>
+      </select>
+      giờ
+      
+      <select id="phut3" name="phut3"  style="width: 10%;height: 40px;">
+        <option value=""></option>
+      </select>
+      phút,
+      <script>
+        const selectgio3 = document.getElementById("gio3");
+        const selectphut3 = document.getElementById("phut3");
+      
+        // Tạo option giờ 00 - 23
+        for (let i = 0; i <= 23; i++) {
+          const val = i.toString().padStart(2, "0");
+          const option = document.createElement("option");
+          option.value = val;
+          option.textContent = val;
+          selectgio3.appendChild(option);
+        }
+      
+        // Tạo option phút 00 - 60
+        for (let i = 0; i <= 60; i++) {
+          const val = i.toString().padStart(2, "0");
+          const option = document.createElement("option");
+          option.value = val;
+          option.textContent = val;
+          selectphut3.appendChild(option);
+        }
+      </script>
+      
+        ngày 
+      <select id="ngay3" name="ngay3"   style="width: 10%;height: 40px;">
+        <option value=""></option>
+      </select>
+      tháng
+      <select id="thang3" name="thang3"  style="width: 10%;height: 40px;">
+        <option value=""></option>
+      </select>
+      năm
+      <select id="nam3" name="nam3"  style="width: 20%;height: 40px;">
+        <option value=""></option>
+      </select>
+      
+      
+      <script>
+        const selectngay3 = document.getElementById("ngay3");
+        const selectthang3 = document.getElementById("thang3");
+        const selectnam3 = document.getElementById("nam3");
+      
+        // Tạo option ngày 01 - 31
+        for (let i = 1; i <= 31; i++) {
+          const val = i.toString().padStart(2, "0");
+          const option = document.createElement("option");
+          option.value = val;
+          option.textContent = val;
+          selectngay3.appendChild(option);
+        }
+      
+        // Tạo option tháng 01 - 12
+        for (let i = 1; i <= 12; i++) {
+          const val = i.toString().padStart(2, "0");
+          const option = document.createElement("option");
+          option.value = val;
+          option.textContent = val;
+          selectthang3.appendChild(option);
+        }
+      
+        // Tạo option năm 2025 - 2040
+        for (let i = 2025; i <= 2040; i++) {
+          const option = document.createElement("option");
+          option.value = i;
+          option.textContent = i;
+          selectnam3.appendChild(option);
+        }
+      </script></div>
+      tại
+      <div>
+        <!--Chọn nơi thường trú-->
+        <label for="tinh7" >Chọn tỉnh/thành phố:
+        <select id="tinh7" name="tinh7"style="width: 50%;height: 40px;" onchange="loadXa7()">
+          <option value="">--Chọn tỉnh/thành phố--</option>
+          <option value="tỉnh Vĩnh Long" >tỉnh Vĩnh Long</option>
+          <option value="tỉnh Cà Mau">tỉnh Cà Mau</option>
+          <option value="tỉnh Đồng Nai">tỉnh Đồng Nai</option>
+          <option value="tỉnh Tây Ninh">tỉnh Tây Ninh</option>
+          <option value="tỉnh Đồng Tháp">tỉnh Đồng Tháp</option>
+          <option value="thành phố Hà Nội">thành phố Hà Nội</option>
+          <option value="thành phố Hồ Chí Minh">thành phố Hồ Chí Minh</option>
+          <option value="thành phố Hải Phòng">thành phố Hải Phòng</option>
+          <option value="thành phố Đà Nẵng">thành phố Đà Nẵng</option>
+          <option value="thành phố Huế">thành phố Huế</option>
+          <option value="thành phố Cần Thơ">thành phố Cần Thơ</option>
+          <option value="tỉnh An Giang">tỉnh An Giang</option>
+          <option value="tỉnh Tuyên Quang">tỉnh Tuyên Quang</option>
+          <option value="tỉnh Cao Bằng">tỉnh Cao Bằng</option>
+          <option value="tỉnh Lai Châu">tỉnh Lai Châu</option>
+          <option value="tỉnh Lào Cai">tỉnh Lào Cai</option>
+          <option value="tỉnh Thái Nguyên">tỉnh Thái Nguyên</option>
+          <option value="tỉnh Điện Biên">tỉnh Điện Biên</option>
+          <option value="tỉnh Lạng Sơn">tỉnh Lạng Sơn</option>
+          <option value="tỉnh Sơn La">tỉnh Sơn La</option>
+          <option value="tỉnh Phú Thọ">tỉnh Phú Thọ</option>
+          <option value="tỉnh Bắc Ninh">tỉnh Bắc Ninh</option>
+          <option value="tỉnh Quảng Ninh">tỉnh Quảng Ninh</option>
+          <option value="tỉnh Hưng Yên">tỉnh Hưng Yên</option>
+          <option value="tỉnh Ninh Bình">tỉnh Ninh Bình</option>
+          <option value="tỉnh Thanh Hóa">tỉnh Thanh Hóa</option>
+          <option value="tỉnh Nghệ An">tỉnh Nghệ An</option>
+          <option value="tỉnh Hà Tĩnh">tỉnh Hà Tĩnh</option>
+          <option value="tỉnh Quảng Trị">tỉnh quảng Trị</option>
+          <option value="tỉnh Quảng Ngãi">tỉnh Quảng Ngãi</option>
+          <option value="tỉnh Gia Lai">tỉnh Gia Lai</option>
+          <option value="tỉnh Đắk Lắk">tỉnh Đắk Lắk</option>
+          <option value="tỉnh Khánh Hòa">tỉnh Khánh Hòa</option>
+          <option value="tỉnh Lâm Đồng">tỉnh Lâm Đồng</option>
+          
+         
+        </select></label>
+      
+          <label for="xa7">Chọn xã/phường:
+        <select id="xa7" name="xa7" style="width: 50%;height: 40px;">
+          <option value="">--Chọn xã/phường--</option>
+        </select></label>
+      
+        
+        <script>
+        function loadXa7() {
+               const tinh = document.getElementById("tinh7").value;
+               const xaSelect = document.getElementById("xa7");
+               xaSelect.innerHTML = '<option value="">--Chọn xã/phường--</option>';
+               if (data[tinh]) {
+                 data[tinh].forEach(xa => {
+                   const option = document.createElement("option");
+                   option.value = xa;
+                   option.textContent = xa;
+                   xaSelect.appendChild(option);
+                 });
+               }
+             } 
+      </script>  
+      
+          
+      <label for="diachi7">Nhập địa chỉ chi tiết nơi xảy ra sự việc:
+        <input type="text" id="diachi7" name="diachi7" 
+        style="width: 50%;height: 40px;" > </label>
+      </div> 
+            <!--kết thúc chọn nơi ở hiện tại-->
+            
+              
+      
+      Ông/bà .................... có hành vi
+      <textarea id="hanhvi2" name="hanhvi2" rows="3" style="width: 100%;"></textarea>
+      
+      
+      </label>
+      
+      <label>Hiển thị
+      
+            <textarea id="5a22" name="5a22" rows="6" style="width: 100%;"></textarea>
+      </label>
+      </div>
+      <!--code hiển thị thông tin hành vi vi phạm-->
+    <div>
+      <script>
+    document.addEventListener('DOMContentLoaded', () => {
+    const inputgio3 = document.getElementById('gio3');
+    const inputphut3 = document.getElementById('phut3');
+    const inputngay3 = document.getElementById('ngay3');
+    const inputthang3 = document.getElementById('thang3');
+    const inputnam3 = document.getElementById('nam3');
+    const inputdiachi7 = document.getElementById('diachi7');
+    const inputxa7 = document.getElementById('xa7');
+    const inputtinh7 = document.getElementById('tinh7');
+    const input2a1 = document.getElementById('2a1');
+    const inputhanhvi2 = document.getElementById('hanhvi2');
     
   
+    const input5a22 = document.getElementById('5a22');
     
-    <textarea 
-      id="5a22" 
-      name="5a22" 
-      rows="6" 
-      style="width: 100%"
-      cols="100">Vào lúc…. giờ …. phút, ngày …. tháng …. năm ….., tại ….</textarea>
+    // Biến lưu trữ giá trị mặc định (được tính toán)
+    let defaultValue = '';
     
-    <script>
-      const textareaVP = document.getElementById('vipham');
-      const defaultText = "Vào lúc…. giờ …. phút, ngày …. tháng …. năm ….., tại ….";
+    /**
+     * Hàm tính toán và gán giá trị mặc định mới cho input 5a50
+     */
+    function updateDefaultValue() {
+        // Lấy giá trị hiện tại đã được chọn từ thẻ <select>
+    const valuegio3 =     inputgio3.value;   
+    const valuephut3 = inputphut3.value;
+    const valuengay3 = inputngay3.value;
+    const valuethang3 = inputthang3.value;
+    const valuenam3 = inputnam3.value;
+    const valuediachi7 = inputdiachi7.value;
+    const valuexa7 =  inputxa7.value;
+    const valuetinh7 =   inputtinh7.value;
+    const value2a1 = input2a1.value;
+    const valuehanhvi2 = inputhanhvi2.value;
+  
     
-      // Khi focus vào textarea, nếu mặc định chưa có thì giữ chữ mặc định
-      textareaVP.addEventListener('focus', function() {
-        if (!this.value.includes(defaultText)) {
-          this.value = defaultText + " " + this.value;
+        
+        // Tính toán lại chuỗi mặc định
+        const newValue = `Vào lúc ${valuegio3} giờ ${valuephut3} phút ngày ${valuengay3} tháng ${valuethang3} năm ${valuenam3}, tại ${valuediachi7}, ${valuexa7}, ${valuetinh7}, ${value2a1} có hành vi ${valuehanhvi2}`;
+        
+        // Nếu input 5a50 đang hiển thị giá trị mặc định cũ, thì cập nhật nó
+        if (input5a22.value === defaultValue) {
+            input5a22.value = newValue;
         }
-      });
+        
+        // Cập nhật giá trị mặc định mới
+        defaultValue = newValue;
+    }
+  
+    // --- 1. GÁN GIÁ TRỊ BAN ĐẦU ---
+    updateDefaultValue(); // Gọi lần đầu để thiết lập giá trị khi trang tải
     
-      // Khi blur, nếu để trống thì tự trở về mặc định
-      textareaVP.addEventListener('blur', function() {
-        if (this.value.trim() === '') {
-          this.value = defaultText;
+    // --- 2. THEO DÕI THAY ĐỔI TỪ SELECT ---
+    // Cập nhật giá trị mặc định mỗi khi <select> 1a3 thay đổi
+    inputgio3.addEventListener('change', updateDefaultValue);
+    
+    // Cập nhật giá trị mặc định mỗi khi <select> 1a1 thay đổi
+    inputphut3.addEventListener('change', updateDefaultValue);
+    inputngay3.addEventListener('change', updateDefaultValue);
+    inputthang3.addEventListener('change', updateDefaultValue);
+    inputnam3.addEventListener('change', updateDefaultValue);
+    inputdiachi7.addEventListener('change', updateDefaultValue);
+    inputxa7.addEventListener('change', updateDefaultValue);
+    inputtinh7.addEventListener('change', updateDefaultValue);
+    input2a1.addEventListener('change', updateDefaultValue);
+    inputhanhvi2.addEventListener('change', updateDefaultValue);
+  
+    // --- 3. XỬ LÝ SỰ KIỆN FOCUS/BLUR CHO 5a50 ---
+  
+    
+  
+    // Khi thoát khỏi (blur)
+    input5a22.addEventListener('blur', function() {
+        // Kiểm tra nếu người dùng không nhập gì mới (value rỗng), thì gán lại giá trị mặc định
+        if (this.value === '') {
+            this.value = defaultValue;
         }
-      });
-    </script>
+    });
+  
+  });
+  
+      </script>
+    </div>
+    <!--kết thúc code hiển thị thông tin hành vi vi phạm-->
+  
+
+    
     
   
     <label for="quydinh"  >
@@ -5677,61 +6103,8 @@ const ds1Data = readList("ds1");
   </h5>
   
   <!-- ===== BẢNG CÁ NHÂN ===== -->
-  <div id="dsCaNhan2" style="display:block;">
-    <div class="nhomckcn2">
-      <label>Họ và tên: <input class="hoTen2" style="width:50%;height:40px;"></label>
-      <label>Nghề nghiệp: <input class="ngheNghiep2" style="width:50%;height:40px;"></label>
-  
-      <label>Địa chỉ:
-      <label>1. Chọn tỉnh</label>
-      <select class="tinh2" name="tinh2" onchange="capNhatXa2(this)">
-      <option value="" selected>--Chọn tỉnh/thành phố--</option>
-       <option value="tỉnh Vĩnh Long" >tỉnh Vĩnh Long</option>
-       <option value="tỉnh Cà Mau">tỉnh Cà Mau</option>
-       <option value="tỉnh Đồng Nai">tỉnh Đồng Nai</option>
-       <option value="tỉnh Tây Ninh">tỉnh Tây Ninh</option>
-       <option value="tỉnh Đồng Tháp">tỉnh Đồng Tháp</option>
-       <option value="thành phố Hà Nội">thành phố Hà Nội</option>
-       <option value="thành phố Hồ Chí Minh">thành phố Hồ Chí Minh</option>
-       <option value="thành phố Hải Phòng">thành phố Hải Phòng</option>
-       <option value="thành phố Đà Nẵng">thành phố Đà Nẵng</option>
-       <option value="thành phố Huế">thành phố Huế</option>
-       <option value="thành phố Cần Thơ">thành phố Cần Thơ</option>
-       <option value="tỉnh An Giang">tỉnh An Giang</option>
-       <option value="tỉnh Tuyên Quang">tỉnh Tuyên Quang</option>
-       <option value="tỉnh Cao Bằng">tỉnh Cao Bằng</option>
-       <option value="tỉnh Lai Châu">tỉnh Lai Châu</option>
-       <option value="tỉnh Lào Cai">tỉnh Lào Cai</option>
-       <option value="tỉnh Thái Nguyên">tỉnh Thái Nguyên</option>
-       <option value="tỉnh Điện Biên">tỉnh Điện Biên</option>
-       <option value="tỉnh Lạng Sơn">tỉnh Lạng Sơn</option>
-       <option value="tỉnh Sơn La">tỉnh Sơn La</option>
-       <option value="tỉnh Phú Thọ">tỉnh Phú Thọ</option>
-       <option value="tỉnh Bắc Ninh">tỉnh Bắc Ninh</option>
-       <option value="tỉnh Quảng Ninh">tỉnh Quảng Ninh</option>
-       <option value="tỉnh Hưng Yên">tỉnh Hưng Yên</option>
-       <option value="tỉnh Ninh Bình">tỉnh Ninh Bình</option>
-       <option value="tỉnh Thanh Hóa">tỉnh Thanh Hóa</option>
-       <option value="tỉnh Nghệ An">tỉnh Nghệ An</option>
-       <option value="tỉnh Hà Tĩnh">tỉnh Hà Tĩnh</option>
-       <option value="tỉnh Quảng Trị">tỉnh quảng Trị</option>
-       <option value="tỉnh Quảng Ngãi">tỉnh Quảng Ngãi</option>
-       <option value="tỉnh Gia Lai">tỉnh Gia Lai</option>
-       <option value="tỉnh Đắk Lắk">tỉnh Đắk Lắk</option>
-       <option value="tỉnh Khánh Hòa">tỉnh Khánh Hòa</option>
-       <option value="tỉnh Lâm Đồng">tỉnh Lâm Đồng</option>
-      </select>
-  
-      <label>2. Chọn xã</label>
-      <select name="xa2" class="xa2"><option value="">-- Chọn xã --</option></select>
-  
-      <label>3. Địa chỉ chi tiết</label>
-      <input class="diaChi2" style="width:100%;height:40px;">
-      </label>
-  
-      <div><button class="xoa" style="background:red;color:white;">Xóa</button></div>
+  <div id="dsCaNhan2" class="nhomckcn2" >
     
-    </div>
   </div>
 
   <button id="themcanhan2" type="button">+ Thêm người chứng kiến</button>
@@ -9137,9 +9510,29 @@ const ds1Data = readList("ds1");
                 elements.forEach(other => {
                     if(other !== el && other.value !== el.value) {
                         other.value = el.value;
+
+      if (other.tagName === 'SELECT') {
+        const event = new Event('change');
+        other.dispatchEvent(event);
+      
+      }
                     }
                 });
             });
+            if (el.tagName === 'SELECT') {
+              el.addEventListener("change", () => {
+                elements.forEach(other => {
+                  if (other !== el && other.value !== el.value) {
+                    other.value = el.value;
+
+                    if (other.tagName === 'SELECT') {
+                      const event = new Event('change');
+                      other.dispatchEvent(event);
+                    }
+                  }
+                });
+              });
+            }
         });
     }
     
@@ -9153,7 +9546,7 @@ const ds1Data = readList("ds1");
         
         ["5a23", "4a17"],
         
-        
+       
   
         ["6a1", "7a6", "9a12"],
         ["6a4", "7a7", "9a13"],
@@ -9163,6 +9556,17 @@ const ds1Data = readList("ds1");
         [ "8a7" , "7a3"],
         [ "8a8" , "7a4"],
         [ "8a9" , "7a5"],
+
+        ["gio2", "gio3"],
+        ["phut2", "phut3"],
+        ["ngay3", "ngay2"],
+        ["thang2", "thang3"],
+        ["nam2", "nam3"],
+        ["tinh6", "tinh7"],
+        ["diachi6", "diachi7"],
+        ["hanhvi", "hanhvi2"],
+        ["xa6", "xa7"],
+       
   
         //liên kết 2 chiều thông tin người vi phạm và người của biên bản làm việc
         ["2a1",	"10a10" , "nvp", "6a23"],
@@ -9207,6 +9611,28 @@ const ds1Data = readList("ds1");
     groups.forEach(linkGroup);
     </script>
   <!--kết thúc hàm liên kết 2 chiều-->
+
+  <!--bổ sung liên kết 2 chiều cho xa6 và xa7-->
+<script>
+  document.addEventListener('DOMContenLoaded' , () => {
+    const tinh6 = documnet.getElementById('tinh6');
+    const tinh7 = documnet.getElementById('tinh7');
+
+    tinh6.addEventListener('change', () => {
+      if (typeof loadXa7 === 'function') {
+        loadXa7();
+      }
+    });
+    tinh7.addEventListener('change', () => {
+      if (typeof loadXa6 === 'function') {
+        loadXa6();
+      }
+    });
+  }
+  
+  );
+</script>
+  <!--kết thúc bổ sung liên kết 2 chiều cho xa6 và xa7-->
   
   <!--liên kết 2 chiều của select chọn nghị định-->
   
